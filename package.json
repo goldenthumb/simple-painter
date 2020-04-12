@@ -1,0 +1,42 @@
+{
+    "name": "simple-painter",
+    "version": "0.0.1",
+    "main": "index.js",
+    "repository": "https://github.com/goldenthumb/simple-painter.git",
+    "author": "goldenthumb <cyh8914@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "dev": "parcel example/index.html",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@types/jest": "^25.2.1",
+        "eslint": "^6.8.0",
+        "eslint-config-goldenthumb": "^0.0.9",
+        "jest": "^25.3.0",
+        "parcel-bundler": "^1.12.4",
+        "ts-jest": "^25.3.1",
+        "typescript": "^3.8.3"
+    },
+    "eslintConfig": {
+        "extends": "goldenthumb/typescript"
+    },
+    "eslintIgnore": [
+        "dist"
+    ],
+    "jest": {
+        "transform": {
+            "^.+\\.ts$": "ts-jest"
+        },
+        "testRegex": "\\.test\\.ts$",
+        "moduleFileExtensions": [
+            "ts",
+            "js"
+        ],
+        "globals": {
+            "ts-jest": {
+                "diagnostics": true
+            }
+        }
+    }
+}

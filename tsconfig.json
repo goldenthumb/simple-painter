@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "module": "es2015",
+        "target": "es5",
+        "sourceMap": false,
+        "declaration": true,
+        "lib": ["dom", "es2015"],
+        "outDir": "./dist"
+    },
+    "include": [
+        "src/index.ts"
+    ]
+}
