@@ -1,39 +1,65 @@
-import PainterView, { DrawOption } from './PainterView';
-import PainterController from './PainterController';
+import PainterView from './PainterView';
 import DrawFigure from './DrawFigure';
+import PainterController from './PainterController';
 
+export type DrawThickness = number;
 export type DrawType = 'freeLine' | 'rectangle' | 'ellipse' | 'arrow';
-export type Position = { x: number | string; y: number | string };
-export type Figure = Position[];
+export type DrawColor = string | CanvasGradient | CanvasPattern;
+export type Position = { x: number; y: number };
+export type DrawOption = {
+    type?: DrawType;
+    color?: DrawColor;
+    thickness?: DrawThickness;
+    lineCap?: CanvasLineCap;
+}
 
 interface PainterOptions {
     canvas: HTMLCanvasElement;
-    drawType?: DrawType;
     drawOption?: DrawOption;
 }
 
 export default class Painter {
+    private _canvas: HTMLCanvasElement;
     private _painterView: PainterView;
     private _painterController: PainterController;
-    private _drawType: DrawType;
+    private _drawFigures: DrawFigure[];
+    private _drawOption: DrawOption;
 
-    constructor({ canvas, drawType, drawOption }: PainterOptions) {
-        const ctx = canvas.getContext('2d');
+    constructor({ canvas, drawOption }: PainterOptions) {
+        const ctx =  canvas.getContext('2d');
         if (!ctx) throw new Error('2d context not supported');
 
-        this._drawType = drawType || 'freeLine';
-        this._painterView = new PainterView({ canvas, ctx, drawOption });
-        this._painterController = new PainterController();
+        this._canvas = canvas;
+        this._drawFigures = [];
+        this._drawOption = {
+            type: 'freeLine',
+            color: 'red',
+            thickness: 3,
+            lineCap: 'round',
+            ...drawOption,
+        };
+
+        this._painterView = new PainterView(canvas, ctx);
+        this._painterController = new PainterController(canvas, ctx, this._drawOption);
+
+        this._painterController.on('endDraw', (positions) => {
+            // this._drawFigures.push(
+            //     new DrawFigure(positions, this._drawOption)
+            // );
+        });
     }
 
-    setDrawOption(option: DrawOption) {
-        this._painterView.setDrawOption(option);
+    setDrawOption(drawOption: DrawOption) {
+        this._drawOption = drawOption;
     }
 
-    drawFreeLine(positions: Position[], drawOption?: DrawOption) {
-        const { width, height } = this._painterView;
-        const drawFigure = new DrawFigure({ type: 'freeLine', width, height, positions });
-        this._painterController.addFigure(drawFigure);
-        this._painterView.drawFreeLine(drawFigure, drawOption);
+    draw(positions: Position[]) {
+        this._drawFigures.push(
+            new DrawFigure(positions, this._drawOption)
+        );
+    }
+
+    render() {
+        this._painterView.render(this._drawFigures);
     }
 }

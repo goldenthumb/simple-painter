@@ -7,7 +7,7 @@ describe('PainterView', () => {
 
         if (!ctx) return;    
 
-        const painterView = new PainterView({ canvas, ctx });
+        const painterView = new PainterView(canvas, ctx);
         expect(painterView).toBeInstanceOf(PainterView);
     });
 });

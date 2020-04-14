@@ -1,61 +1,38 @@
-import DrawFigure from './DrawFigure';
-
-export type DrawColor = string | CanvasGradient | CanvasPattern;
-export type DrawThickness = number;
-
-export interface DrawOption {
-    color?: DrawColor;
-    thickness?: DrawThickness;
-    lineCap?: CanvasLineCap;
-}
-
-export interface PainterViewOption {
-    canvas: HTMLCanvasElement;
-    ctx: CanvasRenderingContext2D;
-    drawOption?: DrawOption;
-}
-
+import { Figure } from './DrawFigure';
+import { DrawOption, Position } from './Painter';
 export default class PainterView {
-    width: number;
-    height: number;
-
     private _canvas: HTMLCanvasElement;
     private _ctx: CanvasRenderingContext2D;
-    private _drawOption: DrawOption;
 
-    constructor({ canvas, ctx, drawOption }: PainterViewOption) {
-        this.width = canvas.width;
-        this.height = canvas.height;
-
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         this._canvas = canvas;
         this._ctx = ctx;
-        this._drawOption = {
-            color: 'red',
-            thickness: 3,
-            lineCap: 'round',
-            ...drawOption,
-        };
     }
 
-    setDrawOption(option: DrawOption) {
-        this._drawOption = {
-            ...this._drawOption,
-            ...option,
-        };
+    render(figures: Figure[]) {
+        for (const { drawOption, positions } of figures) {
+            if (drawOption.type === 'freeLine') {
+                this._drawFreeLine(positions, drawOption);
+            }
+        }
     }
 
-    drawFreeLine(drawFigure: DrawFigure, option: DrawOption = this._drawOption) {
-        const { color, thickness, lineCap } = option;
-    
+    _drawFreeLine(positions: Position[], drawOption: DrawOption) {
+        const { color, thickness, lineCap } = drawOption;
         this._ctx.beginPath();
+
         if (color) this._ctx.strokeStyle = color;
         if (thickness) this._ctx.lineWidth = thickness;
         if (lineCap) this._ctx.lineCap = lineCap;
 
-        for (const { id, x, y } of drawFigure.positions) {
-            if (id === 0) this._ctx.moveTo(x, y);
+        positions.forEach((position, index) => {
+            const { width , height } = this._canvas;
+            const x = width * position.x;
+            const y = height * position.y;
+
+            if (index === 0) this._ctx.moveTo(x, y);
             else this._ctx.lineTo(x, y);
             this._ctx.stroke();
-        }
+        });
     }
 }
