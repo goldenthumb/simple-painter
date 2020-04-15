@@ -1,38 +1,46 @@
-import { Figure } from './DrawFigure';
-import { DrawOption, Position } from './Painter';
+import Painter, { Position, DrawOption } from './Painter';
+
 export default class PainterView {
-    private _canvas: HTMLCanvasElement;
-    private _ctx: CanvasRenderingContext2D;
+    private _painter: Painter;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        this._canvas = canvas;
-        this._ctx = ctx;
+    constructor(painter: Painter) {
+        this._painter = painter;
     }
 
-    render(figures: Figure[]) {
-        for (const { drawOption, positions } of figures) {
-            if (drawOption.type === 'freeLine') {
-                this._drawFreeLine(positions, drawOption);
-            }
-        }
-    }
-
-    _drawFreeLine(positions: Position[], drawOption: DrawOption) {
-        const { color, thickness, lineCap } = drawOption;
-        this._ctx.beginPath();
-
-        if (color) this._ctx.strokeStyle = color;
-        if (thickness) this._ctx.lineWidth = thickness;
-        if (lineCap) this._ctx.lineCap = lineCap;
-
+    drawFreeLineFigure(positions: Position[], drawOption: DrawOption) {
         positions.forEach((position, index) => {
-            const { width , height } = this._canvas;
-            const x = width * position.x;
-            const y = height * position.y;
-
-            if (index === 0) this._ctx.moveTo(x, y);
-            else this._ctx.lineTo(x, y);
-            this._ctx.stroke();
+            if (index === 0) {
+                this.setDrawInfo(drawOption);
+                this.startFreeLinePiece(position);
+            } else {
+                this.drawFreeLinePiece(position);
+            }
         });
+    }
+
+    setDrawInfo(drawOption: DrawOption) {
+        const { ctx } = this._painter;
+        const { color, thickness, lineCap } = drawOption;
+        ctx.beginPath();
+
+        if (color) ctx.strokeStyle = color;
+        if (thickness) ctx.lineWidth = thickness;
+        if (lineCap) ctx.lineCap = lineCap;
+    }
+
+    startFreeLinePiece(position: Position) {
+        const { ctx, canvas } = this._painter;
+        const { width , height } = canvas;
+
+        ctx.moveTo(width * position.x, height * position.y);
+        ctx.stroke();
+    }
+
+    drawFreeLinePiece(position: Position) {
+        const { ctx, canvas } = this._painter;
+        const { width , height } = canvas;
+
+        ctx.lineTo(width * position.x, height * position.y);
+        ctx.stroke();
     }
 }
