@@ -4,6 +4,7 @@
         "module": "es2015",
         "target": "es5",
         "sourceMap": false,
+        "esModuleInterop": true,
         "declaration": true,
         "lib": ["dom", "es2015"],
         "outDir": "./dist"
