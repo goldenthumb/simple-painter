@@ -1,4 +1,4 @@
-import Painter, { Position, DrawOption } from './Painter';
+import Painter, { Position, DrawOption, DrawFigure } from './Painter';
 
 export default class PainterView {
     private _painter: Painter;
@@ -7,41 +7,31 @@ export default class PainterView {
         this._painter = painter;
     }
 
-    drawFreeLineFigure(positions: Position[], drawOption: DrawOption) {
-        positions.forEach((position, index) => {
-            if (index === 0) {
-                this.setDrawInfo(drawOption);
-                this.startFreeLinePiece(position);
-            } else {
-                this.drawFreeLinePiece(position);
-            }
-        });
+    drawFreeLineFigure({ positions, ...drawOption }: DrawFigure) {
+        this.setDrawInfo(drawOption);
+
+        for (const position of positions) {
+            this.drawFreeLine(position);
+        }
     }
 
-    drawRectangleFigure(positions: Position[], drawOption: DrawOption) {
+    drawRectangleFigure({ positions, ...drawOption }: DrawFigure) {
         this.setDrawInfo(drawOption);
-        this.drawRectanglePiece(positions);
+        this.drawRectangle(positions);
     }
 
     setDrawInfo(drawOption: DrawOption) {
         const { ctx } = this._painter;
         const { color, thickness, lineCap } = drawOption;
-        ctx.beginPath();
 
         if (color) ctx.strokeStyle = color;
         if (thickness) ctx.lineWidth = thickness;
         if (lineCap) ctx.lineCap = lineCap;
+
+        ctx.beginPath();
     }
 
-    startFreeLinePiece(position: Position) {
-        const { ctx, canvas } = this._painter;
-        const { width , height } = canvas;
-
-        ctx.moveTo(width * position.x, height * position.y);
-        ctx.stroke();
-    }
-
-    drawFreeLinePiece(position: Position) {
+    drawFreeLine(position: Position) {
         const { ctx, canvas } = this._painter;
         const { width , height } = canvas;
 
@@ -49,7 +39,7 @@ export default class PainterView {
         ctx.stroke();
     }
 
-    drawRectanglePiece(positions: Position[]) {
+    drawRectangle(positions: Position[]) {
         const { x: startX, y: startY } = positions[0];
         const { x: endX, y: endY } = positions[positions.length - 1];
         const { ctx, canvas } = this._painter;

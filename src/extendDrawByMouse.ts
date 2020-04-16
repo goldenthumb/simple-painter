@@ -25,7 +25,7 @@ export default function extendDrawByMouse(painter: Painter) {
             event.preventDefault();
         }),
     ] : [
-        on(document, 'mousedown', ({ clientX, clientY }) => {
+        on(canvas, 'mousedown', ({ clientX, clientY }) => {
             const position = normalizePosition(canvas, { clientX, clientY });
             startDraw(position);
             drawing(position);

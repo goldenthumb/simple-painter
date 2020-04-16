@@ -7,19 +7,18 @@ export type DrawType = 'freeLine' | 'rectangle' | 'ellipse' | 'arrow';
 export type DrawColor = string | CanvasGradient | CanvasPattern;
 export type Position = { x: number; y: number };
 
-export type DrawOption = {
+export interface DrawOption  {
     type?: DrawType;
     color?: DrawColor;
     thickness?: DrawThickness;
     lineCap?: CanvasLineCap;
 }
 
-export type DrawFigure = {
-    drawOption: DrawOption;
+export interface DrawFigure extends DrawOption {
     positions: Position[];
 }
 
-interface PainterOptions {
+export interface PainterOptions {
     canvas: HTMLCanvasElement;
     width?: number;
     height?: number;
@@ -65,11 +64,14 @@ export default class Painter {
     }
 
     setDrawOption(drawOption: DrawOption) {
-        this.drawOption = drawOption;
+        this.drawOption = {
+            ...this.drawOption,
+            ...drawOption,
+        };
     }
 
-    drawFigure(positions: Position[], drawOption: DrawOption = this.drawOption) {
-        this._drawFigures.push({ positions, drawOption });
+    drawFigure(drawFigure: DrawFigure) {
+        this._drawFigures.push({ ...this.drawOption, ...drawFigure });
         this._render();
     }
 
@@ -84,40 +86,43 @@ export default class Painter {
     }
 
     _startLiveDraw(position: Position) {
-        if (this.drawOption.type === 'freeLine') {
-            this._painterView.setDrawInfo(this.drawOption);
-            this._painterView.startFreeLinePiece(position);
-        }
-
         this._drawPositions.push(position);
+        this._painterView.setDrawInfo(this.drawOption);
         this._emitter.emit('drawStart', position);
     }
 
     _liveDrawing(position: Position) {
         if (this.drawOption.type === 'freeLine') {
-            this._painterView.drawFreeLinePiece(position);
+            this._drawPositions.push(position);
+            this._painterView.drawFreeLine(position);
         }
 
-        this._drawPositions.push(position);
+        if (this.drawOption.type === 'rectangle') {
+            this._render();
+            this._painterView.setDrawInfo(this.drawOption);
+            this._drawPositions = [this._drawPositions[0], position];
+            this._painterView.drawRectangle(this._drawPositions);
+        }
+
         this._emitter.emit('drawing', position);
     }
 
     _endLiveDraw() {
-        this._drawFigures.push({ positions: this._drawPositions, drawOption: this.drawOption });
-        this._render();
+        this._drawFigures.push({ positions: this._drawPositions, ...this.drawOption });
         this._emitter.emit('drawEnd', this._drawPositions);
         this._drawPositions = [];
+        this._render();
     }
 
     _render() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        for (const { drawOption, positions } of this._drawFigures) {
-            if (drawOption.type === 'freeLine') {
-                this._painterView.drawFreeLineFigure(positions, drawOption);
+        for (const drawFigure of this._drawFigures) {
+            if (drawFigure.type === 'freeLine') {
+                this._painterView.drawFreeLineFigure(drawFigure);
             }
 
-            if (drawOption.type === 'rectangle') {
-                this._painterView.drawRectangleFigure(positions, drawOption);
+            if (drawFigure.type === 'rectangle') {
+                this._painterView.drawRectangleFigure(drawFigure);
             }
         }
     }
