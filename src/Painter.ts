@@ -85,31 +85,37 @@ export default class Painter {
         this._emitter.allOff();
     }
 
-    _startLiveDraw(position: Position) {
+    _startLiveDraw(position: Position, event: MouseEvent | TouchEvent) {
         this._drawPositions.push(position);
         this._painterView.setDrawInfo(this.drawOption);
-        this._emitter.emit('drawStart', position);
+        this._painterView.setStartPosition(position);
+        this._emitter.emit('drawStart', position, event);
     }
 
-    _liveDrawing(position: Position) {
+    _liveDrawing(position: Position, event: MouseEvent | TouchEvent) {
         if (this.drawOption.type === 'freeLine') {
             this._drawPositions.push(position);
-            this._painterView.drawFreeLine(position);
+            this._painterView.drawLine(position);
         }
 
         if (this.drawOption.type === 'rectangle') {
             this._render();
-            this._painterView.setDrawInfo(this.drawOption);
             this._drawPositions = [this._drawPositions[0], position];
             this._painterView.drawRectangle(this._drawPositions);
         }
 
-        this._emitter.emit('drawing', position);
+        if (this.drawOption.type === 'ellipse') {
+            this._render();
+            this._drawPositions = [this._drawPositions[0], position];
+            this._painterView.drawEllipse(this._drawPositions);
+        }
+
+        this._emitter.emit('drawing', position, event);
     }
 
-    _endLiveDraw() {
+    _endLiveDraw(event: MouseEvent | TouchEvent) {
         this._drawFigures.push({ positions: this._drawPositions, ...this.drawOption });
-        this._emitter.emit('drawEnd', this._drawPositions);
+        this._emitter.emit('drawEnd', this._drawPositions, event);
         this._drawPositions = [];
         this._render();
     }
@@ -124,6 +130,11 @@ export default class Painter {
             if (drawFigure.type === 'rectangle') {
                 this._painterView.drawRectangleFigure(drawFigure);
             }
+
+            if (drawFigure.type === 'ellipse') {
+                this._painterView.drawEllipseFigure(drawFigure);
+            }
         }
+        this._painterView.setDrawInfo(this.drawOption);
     }
 }

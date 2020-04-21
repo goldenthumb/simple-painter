@@ -1,33 +1,15 @@
-import { Painter } from '../src';
+import Painter from '../src';
 
-const freeLineButton = document.getElementById('freeLine');
-const rectangleButton = document.getElementById('rectangle');
+const radios = document.getElementsByName('draw-type');
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 const painter = new Painter({ canvas, width: 500, height: 500 });
 
-freeLineButton.addEventListener('click', () => {
-    painter.setDrawOption({ type: 'freeLine' });
-    freeLineButton.style.background = 'darkgray';
-    rectangleButton.style.background = 'white';
-});
-
-rectangleButton.addEventListener('click', () => {
-    painter.setDrawOption({ type: 'rectangle' });
-    rectangleButton.style.background = 'darkgray';
-    freeLineButton.style.background = 'white';
-});
-
-painter.on('drawStart', (position) => {
-    console.log('drawStart', position);
-});
-
-painter.on('drawing', (position) => {
-    console.log('drawing', position);
-});
-
-painter.on('drawEnd', (positions) => {
-    console.log('drawEnd', positions);
-});
+for (const radio of radios) {
+    radio.addEventListener('change', () => {
+        const type = document.querySelector('input[name="draw-type"]:checked').value;
+        painter.setDrawOption({ type });
+    });
+}
 
 painter.drawFigure({
     type: 'freeLine',
@@ -35,24 +17,47 @@ painter.drawFigure({
     thickness: 3,
     lineCap: 'round',
     positions: [
-        { x: 0.654859, y: 0.141068 },
-        { x: 0.655767, y: 0.141068 },
-        { x: 0.654859, y: 0.144299 },
-        { x: 0.652134, y: 0.155608 },
-        { x: 0.64941, y: 0.163685 },
-        { x: 0.643052, y: 0.186302 },
-        { x: 0.640327, y: 0.195995 },
-        { x: 0.63851, y: 0.202457 },
+        { x: 0.537866461275263, y: 0.24183928841850494 },
+        { x: 0.655767612752637, y: 0.14106861275263723 },
+        { x: 0.654859612752637, y: 0.14429961275263721 },
+        { x: 0.652134612752637, y: 0.15560861275263723 },
+        { x: 0.649416127526371, y: 0.16368561275263742 },
+        { x: 0.643052612752637, y: 0.18630261275263712 },
+        { x: 0.640327612752637, y: 0.19599561275263723 },
+        { x: 0.638516127526372, y: 0.20245761275263723 },
     ]
 });
 
 painter.drawFigure({ 
     type: 'rectangle',
     color: 'blue',
-    thickness: 3,
+    thickness: 10,
     lineCap: 'round',
     positions: [
         { x: 0.45800570994602724, y: 0.29400569993626097 },
         { x: 0.6980057245944656, y: 0.46000571006809754 },
     ]
+});
+
+painter.drawFigure({ 
+    type: 'ellipse',
+    color: 'green',
+    thickness: 2,
+    lineCap: 'round',
+    positions: [
+        { x: 0.589660464410864, y: 0.39722129782530574 },
+        { x: 0.8147651703463574, y: 0.5984210792366761 },
+    ]  
+});
+
+painter.on('drawStart', (position, event) => {
+    console.log('drawStart', position, event);
+});
+
+painter.on('drawing', (position, event) => {
+    console.log('drawing', position, event);
+});
+
+painter.on('drawEnd', (positions, event) => {
+    console.log('drawEnd', positions, event);
 });

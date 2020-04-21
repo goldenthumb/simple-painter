@@ -3,54 +3,50 @@ import Painter from './Painter';
 
 export default function extendDrawByMouse(painter: Painter) {
     const { canvas } = painter;
-    const isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
     let isDrawing = false;
 
-    const offEvents = isTouchDevice ? [
+    const offEvents = [
+        on(canvas, 'mousedown', (event) => {
+            const { clientX, clientY } = event;
+            const position = normalizePosition(canvas, { clientX, clientY });
+            startDraw(position, event);
+            drawing(position, event);
+        }),
+        on(document, 'mousemove', (event) => {
+            const { clientX, clientY } = event;
+            const position = normalizePosition(canvas, { clientX, clientY });
+            drawing(position, event);
+        }),
+        on(document, 'mouseup', endDraw),
+
         on(canvas, 'touchstart', (event) => {
             const { clientX, clientY } = event.touches[0];
             const position = normalizePosition(canvas, { clientX, clientY });
-            startDraw(position);
-            drawing(position);
-            event.preventDefault();
+            startDraw(position, event);
+            drawing(position, event);
         }),
-        on(canvas, 'touchmove', (event) => {
+        on(document, 'touchmove', (event) => {
             const { clientX, clientY } = event.touches[0];
             const position = normalizePosition(canvas, { clientX, clientY });
-            drawing(position);
-            event.preventDefault();
+            drawing(position, event);
         }),
-        on(canvas, 'touchend', (event) => {
-            endDraw();
-            event.preventDefault();
-        }),
-    ] : [
-        on(canvas, 'mousedown', ({ clientX, clientY }) => {
-            const position = normalizePosition(canvas, { clientX, clientY });
-            startDraw(position);
-            drawing(position);
-        }),
-        on(canvas, 'mousemove', ({ clientX, clientY }) => {
-            const position = normalizePosition(canvas, { clientX, clientY });
-            drawing(position);
-        }),
-        on(document, 'mouseup', endDraw),
+        on(document, 'touchend', endDraw),
     ];
 
-    function startDraw({ x, y }: { x: number; y: number }) {
+    function startDraw({ x, y }: { x: number; y: number }, event: MouseEvent | TouchEvent) {
         isDrawing = true;
-        painter._startLiveDraw({ x, y });
+        painter._startLiveDraw({ x, y }, event);
     };
 
-    function drawing({ x, y }: { x: number; y: number }) {
+    function drawing({ x, y }: { x: number; y: number }, event: MouseEvent | TouchEvent) {
         if (!isDrawing) return;
-        painter._liveDrawing({ x, y });
+        painter._liveDrawing({ x, y }, event);
     };
 
-    function endDraw() {
+    function endDraw(event: MouseEvent | TouchEvent) {
         if (!isDrawing) return;
         isDrawing = false;
-        painter._endLiveDraw();
+        painter._endLiveDraw(event);
     };
 
     return () => {

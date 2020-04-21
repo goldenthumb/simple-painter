@@ -8,8 +8,12 @@
 </head>
 <body>
     <div id="root">
-        <button id="freeLine" style="background: darkgray;">freeLine</button>
-        <button id="rectangle">rectangle</button>
+        <input id="freeLine" type="radio" name="draw-type" value="freeLine" checked /> 
+        <label for="freeLine">freeLine</label>
+        <input id="rectangle" type="radio" name="draw-type" value="rectangle" /> 
+        <label for="rectangle">rectangle</label>
+        <input id="ellipse" type="radio" name="draw-type" value="ellipse" /> 
+        <label for="ellipse">ellipse</label>
         <br /><br />
         <canvas id="canvas" style="border: 1px solid"></canvas>
     </div>

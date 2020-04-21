@@ -8,9 +8,9 @@ export default class EventEmitter {
         this._events = {};
     }
 
-    emit(event: string, data?: any) {
+    emit(event: string, ...args: any) {
         for (const fn of this._events[event] || []) {
-            fn(data);
+            fn(...args);
         }
     }
 
