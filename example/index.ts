@@ -50,12 +50,15 @@ painter.drawFigure({
     ]  
 });
 
-painter.on('drawStart', (position, event) => {
-    console.log('drawStart', position, event);
-});
-
-painter.on('drawing', (position, event) => {
-    console.log('drawing', position, event);
+painter.drawFigure({ 
+    type: 'straightLine',
+    color: 'purple',
+    thickness: 5,
+    lineCap: 'square',
+    positions: [
+        { x: 0.589660464410864, y: 0.39722129782530574 },
+        { x: 0.8147651703463574, y: 0.5984210792366761 },
+    ]  
 });
 
 painter.on('drawEnd', (positions, event) => {

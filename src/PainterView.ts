@@ -12,7 +12,7 @@ export default class PainterView {
         this.setStartPosition(positions[0]);
         
         for (const position of positions) {
-            this.drawLine(position);
+            this.drawFreeLine(position);
         }
     }
 
@@ -24,6 +24,11 @@ export default class PainterView {
     drawEllipseFigure({ positions, ...drawOption }: DrawFigure) {
         this.setDrawInfo(drawOption);
         this.drawEllipse(positions);
+    }
+
+    drawStraightLineFigure({ positions, ...drawOption }: DrawFigure) {
+        this.setDrawInfo(drawOption);
+        this.drawStraightLine(positions);
     }
 
     setDrawInfo(drawOption: DrawOption) {
@@ -42,9 +47,20 @@ export default class PainterView {
         ctx.moveTo(canvas.width * position.x, canvas.height * position.y);
     }
 
-    drawLine(position: Position) {
+    drawFreeLine(position: Position) {
         const { ctx, canvas } = this._painter;
         ctx.lineTo(canvas.width * position.x, canvas.height * position.y);
+        ctx.stroke();
+    }
+
+    drawStraightLine(positions: Position[]) {
+        const { x: startX, y: startY } = positions[0];
+        const { x, y } = positions[positions.length - 1];
+        const { ctx, canvas } = this._painter;
+
+        ctx.beginPath();
+        ctx.moveTo(startX * canvas.width, startY * canvas.height);
+        ctx.lineTo(x * canvas.width, y * canvas.height);
         ctx.stroke();
     }
 

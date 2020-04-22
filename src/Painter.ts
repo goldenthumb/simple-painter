@@ -3,11 +3,11 @@ import extendDrawByMouse from './extendDrawByMouse';
 import EventEmitter, { Listener } from './EventEmitter';
 
 export type DrawThickness = number;
-export type DrawType = 'freeLine' | 'rectangle' | 'ellipse' | 'arrow';
+export type DrawType = 'freeLine' | 'straightLine' | 'rectangle' | 'ellipse';
 export type DrawColor = string | CanvasGradient | CanvasPattern;
 export type Position = { x: number; y: number };
 
-export interface DrawOption  {
+export interface DrawOption {
     type?: DrawType;
     color?: DrawColor;
     thickness?: DrawThickness;
@@ -95,7 +95,13 @@ export default class Painter {
     _liveDrawing(position: Position, event: MouseEvent | TouchEvent) {
         if (this.drawOption.type === 'freeLine') {
             this._drawPositions.push(position);
-            this._painterView.drawLine(position);
+            this._painterView.drawFreeLine(position);
+        }
+
+        if (this.drawOption.type === 'straightLine') {
+            this._render();
+            this._drawPositions = [this._drawPositions[0], position];
+            this._painterView.drawStraightLine(this._drawPositions);
         }
 
         if (this.drawOption.type === 'rectangle') {
@@ -121,7 +127,9 @@ export default class Painter {
     }
 
     _render() {
+        if (!this._drawFigures.length) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
         for (const drawFigure of this._drawFigures) {
             if (drawFigure.type === 'freeLine') {
                 this._painterView.drawFreeLineFigure(drawFigure);
@@ -134,7 +142,12 @@ export default class Painter {
             if (drawFigure.type === 'ellipse') {
                 this._painterView.drawEllipseFigure(drawFigure);
             }
+
+            if (drawFigure.type === 'straightLine') {
+                this._painterView.drawStraightLineFigure(drawFigure);
+            }
         }
+
         this._painterView.setDrawInfo(this.drawOption);
     }
 }
