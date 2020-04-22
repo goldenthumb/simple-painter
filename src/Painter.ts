@@ -22,7 +22,11 @@ export interface PainterOptions {
     canvas: HTMLCanvasElement;
     width?: number;
     height?: number;
-    drawOption?: DrawOption;
+    drawMouse?: boolean;
+    type?: DrawType;
+    color?: DrawColor;
+    thickness?: DrawThickness;
+    lineCap?: CanvasLineCap;
 }
 
 export default class Painter {
@@ -36,7 +40,16 @@ export default class Painter {
     private _painterView: PainterView;
     private _offExtendDrawByMouse: () => void;
 
-    constructor({ canvas, width, height, drawOption }: PainterOptions) {
+    constructor({ 
+        canvas, 
+        width, 
+        height, 
+        drawMouse = true, 
+        type = 'freeLine', 
+        color = 'red', 
+        thickness = 3, 
+        lineCap = 'square'  
+    }: PainterOptions) {
         const ctx = canvas.getContext('2d');
         if (!ctx) throw new Error('2d context not supported');
         if (width) canvas.width = width;
@@ -44,29 +57,51 @@ export default class Painter {
 
         this.canvas = canvas;
         this.ctx = ctx;
-        this.drawOption = {
-            type: 'freeLine',
-            color: 'red',
-            thickness: 3,
-            lineCap: 'round',
-            ...drawOption,
-        };
+        this.drawOption = { type, color, thickness, lineCap };
 
         this._drawFigures = [];
         this._drawPositions = [];
         this._emitter = new EventEmitter();
         this._painterView = new PainterView(this);
-        this._offExtendDrawByMouse = extendDrawByMouse(this);
+        this._offExtendDrawByMouse = drawMouse ? extendDrawByMouse(this) : () => null;
     }
 
     on(name: 'drawStart' | 'drawing' | 'drawEnd', listener: Listener) {
         return this._emitter.on(name, listener);
     }
 
-    setDrawOption(drawOption: DrawOption) {
+    setOptions(drawOption: DrawOption) {
         this.drawOption = {
             ...this.drawOption,
             ...drawOption,
+        };
+    }
+
+    setType(type: DrawType) {
+        this.drawOption = {
+            ...this.drawOption,
+            type,
+        };
+    }
+
+    setColor(color: DrawColor) {
+        this.drawOption = {
+            ...this.drawOption,
+            color,
+        };
+    }
+
+    setThickness(thickness: DrawThickness) {
+        this.drawOption = {
+            ...this.drawOption,
+            thickness,
+        };
+    }
+
+    setLineCap(lineCap: CanvasLineCap) {
+        this.drawOption = {
+            ...this.drawOption,
+            lineCap,
         };
     }
 
@@ -75,7 +110,7 @@ export default class Painter {
         this._render();
     }
 
-    clearDraw() {
+    clear() {
         this._drawFigures = [];
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
