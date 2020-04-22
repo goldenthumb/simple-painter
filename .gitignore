@@ -5,3 +5,4 @@ dist/
 .vscode/
 *.log
 *.lock
+.rts2_cache_*/

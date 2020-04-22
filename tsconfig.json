@@ -3,8 +3,8 @@
         "strict": true,
         "module": "es2015",
         "target": "es5",
-        "sourceMap": false,
         "esModuleInterop": true,
+        "moduleResolution": "Node",
         "declaration": true,
         "lib": ["dom", "es2015"],
         "outDir": "./dist"
