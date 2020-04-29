@@ -1,22 +1,21 @@
-import {Figure, DrawStyle, RelativePosition, DrawingEvent, DrawingEventSource} from "../types";
+import { Figure, DrawStyle, RelativePosition, DrawingEventSource } from '../types';
 
-export default class Rectangle implements Figure{
-    constructor( 
+export default class Rectangle implements Figure {
+    constructor(
         private _style: DrawStyle,
         private _start?: RelativePosition,
         private _end?: RelativePosition,
-    ){
-    }
+    ) {}
 
-    async drawing(ctx: CanvasRenderingContext2D, events: DrawingEventSource){
-        const {width, height} = ctx.canvas;
-        
-        for await(const event of events) {
-            const {relativePosition} = event;
+    async drawing(ctx: CanvasRenderingContext2D, events: DrawingEventSource) {
+        const { width, height } = ctx.canvas;
 
-            if(this._start){
+        for await (const event of events) {
+            const { relativePosition } = event;
+
+            if (this._start) {
                 this._end = relativePosition;
-            }else{
+            } else {
                 this._start = this._end = relativePosition;
             }
 
@@ -25,11 +24,11 @@ export default class Rectangle implements Figure{
         }
     }
 
-    render(ctx: CanvasRenderingContext2D){
-        if(this._start === undefined || this._end === undefined) return;
+    render(ctx: CanvasRenderingContext2D) {
+        if (this._start === undefined || this._end === undefined) return;
 
         const { color, thickness, lineCap } = this._style;
-        const {width, height} = ctx.canvas;
+        const { width, height } = ctx.canvas;
 
         if (color) ctx.strokeStyle = color;
         if (thickness) ctx.lineWidth = thickness;
@@ -39,9 +38,9 @@ export default class Rectangle implements Figure{
         const { x, y } = this._end;
 
         ctx.strokeRect(
-            startX * width, 
-            startY * height, 
-            (x - startX) * width, 
+            startX * width,
+            startY * height,
+            (x - startX) * width,
             (y - startY) * height
         );
     }

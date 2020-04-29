@@ -7,16 +7,15 @@ export interface DrawStyle {
 }
 
 export interface DrawingEvent {
-    originalEvent: MouseEvent|TouchEvent;
+    originalEvent: MouseEvent | TouchEvent;
     relativePosition: RelativePosition;
 }
 
-export type DrawingListener = (e: DrawingEvent) => void
+export type DrawingListener = (e: DrawingEvent) => void;
 
-export type DrawingEventSource = AsyncGenerator<DrawingEvent>
+export type DrawingEventSource = AsyncGenerator<DrawingEvent>;
 
-export interface Figure{
+export interface Figure {
     drawing(ctx: CanvasRenderingContext2D, events: DrawingEventSource): void;
-    
     render(ctx: CanvasRenderingContext2D): void;
 }

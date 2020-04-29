@@ -1,11 +1,11 @@
 import EventEmitter, { Listener } from './EventEmitter';
-import {Figure, RelativePosition, DrawingEvent} from './types';
+import { Figure, RelativePosition, DrawingEvent } from './types';
 import FreeLine from './Figure/FreeLine';
 import StraightLine from './Figure/StraightLine';
 import Rectangle from './Figure/Rectangle';
 import Ellipse from './Figure/Ellipse';
 
-type EventMap<Element=HTMLElement> = Element extends Document ? DocumentEventMap : HTMLElementEventMap
+type EventMap<Element = HTMLElement> = Element extends Document ? DocumentEventMap : HTMLElementEventMap;
 
 export type DrawThickness = number;
 export type DrawType = 'freeLine' | 'straightLine' | 'rectangle' | 'ellipse';
@@ -35,44 +35,44 @@ export interface PainterOptions {
 
 export default class Painter {
     drawOption: DrawOption;
-    disableMouseDrawing = () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
-    
-    private _canvas: HTMLCanvasElement;
-    private _ctx: CanvasRenderingContext2D
-    private _emitter: EventEmitter;
-    private _figures: Figure[] = []
-    private _cursor = 0
+    disableMouseDrawing = () => { };
 
-    constructor({ 
+    private _canvas: HTMLCanvasElement;
+    private _ctx: CanvasRenderingContext2D;
+    private _emitter: EventEmitter;
+    private _figures: Figure[] = [];
+    private _cursor = 0;
+
+    constructor({
         canvas, 
-        width, 
-        height, 
-        drawMouse = true, 
-        type = 'freeLine', 
-        color = 'red', 
-        thickness = 3, 
-        lineCap = 'square'  
+        width,
+        height,
+        drawMouse = true,
+        type = 'freeLine',
+        color = 'red',
+        thickness = 3,
+        lineCap = 'square'
     }: PainterOptions) {
         this._canvas = canvas;
-        if (!(this._ctx = canvas.getContext('2d')!)){
+        if (!(this._ctx = canvas.getContext('2d')!)) {
             throw new Error('2d context not supported');
         }
 
         if (width) canvas.width = width;
         if (height) canvas.height = height;
-        
+
         this.drawOption = { type, color, thickness, lineCap };
         this._emitter = new EventEmitter();
-                
-        if(drawMouse) this.enableMouseDrawing();
+
+        if (drawMouse) this.enableMouseDrawing();
     }
 
-    get canvas(){
+    get canvas() {
         return this._canvas;
     }
 
-    get size(){
-        return {width:this._canvas.width, height: this._canvas.height};
+    get size() {
+        return { width: this._canvas.width, height: this._canvas.height };
     }
 
     on(name: 'drawStart' | 'drawing' | 'drawEnd', listener: Listener) {
@@ -86,34 +86,31 @@ export default class Painter {
         };
     }
 
-    draw(figure: Figure){
+    draw(figure: Figure) {
         this._push(figure);
         figure.render(this._ctx);
     }
-    
-    private _push(figure: Figure){
-        // eslint-disable-next-line no-plusplus
+
+    private _push(figure: Figure) {
         (this._figures = this._figures.slice(0, this._cursor++)).push(figure);
     }
 
-    undo(){
-        if(this._cursor > 0) {            
-            // eslint-disable-next-line no-plusplus
+    undo() {
+        if (this._cursor > 0) {
             this._cursor--;
             this.redraw();
         }
     }
 
-    redo(){
-        if(this._cursor < this._figures.length){
-            // eslint-disable-next-line no-plusplus
+    redo() {
+        if (this._cursor < this._figures.length) {
             this._cursor++;
             this.redraw();
         }
     }
 
     clear() {
-        const {width, height} = this.size;
+        const { width, height } = this.size;
         this._ctx.clearRect(0, 0, width, height);
     }
 
@@ -122,35 +119,35 @@ export default class Painter {
         this._emitter.allOff();
     }
 
-    enableMouseDrawing(){
+    enableMouseDrawing() {
         this.disableMouseDrawing();
 
-        const {canvas} = this;
+        const { canvas } = this;
         const tmpCanvas = document.createElement('canvas');
         const tmpCtx = tmpCanvas.getContext('2d')!;
-        
-        let drawingFigure: Figure|null  = null;
+
+        let drawingFigure: Figure | null = null;
         let resolve: (v?: DrawingEvent) => void = noop;
 
-        async function * drawingEvents () {
-            let event: DrawingEvent|undefined;
-            while(event = await new Promise<DrawingEvent|undefined>(r => resolve = r)){
+        async function* drawingEvents() {
+            let event: DrawingEvent | undefined;
+            while (event = await new Promise<DrawingEvent | undefined>(r => resolve = r)) {
                 yield event;
             }
         }
 
         const startDraw = (position: RelativePosition, event: MouseEvent | TouchEvent) => {
-            switch (this.drawOption.type){
-            case 'freeLine': 
+            switch (this.drawOption.type) {
+            case 'freeLine':
                 drawingFigure = new FreeLine(this.drawOption);
                 break;
-            case 'straightLine': 
+            case 'straightLine':
                 drawingFigure = new StraightLine(this.drawOption);
                 break;
-            case 'rectangle': 
+            case 'rectangle':
                 drawingFigure = new Rectangle(this.drawOption);
                 break;
-            case 'ellipse': 
+            case 'ellipse':
                 drawingFigure = new Ellipse(this.drawOption);
                 break;
             default:
@@ -161,17 +158,17 @@ export default class Painter {
             document.body.appendChild(tmpCanvas);
 
             drawingFigure.drawing(tmpCtx, drawingEvents());
-            this._emitter.emit('drawStart', position, event);
+            this._emitter.emit('drawStart', { originalEvent: event, canvas: this._canvas, relativePosition: position });
         };
 
         const drawing = (position: RelativePosition, event: MouseEvent | TouchEvent) => {
             if (!drawingFigure) return;
-            const drawingEvent = {originalEvent: event, canvas: this._canvas, relativePosition: position};
+            const drawingEvent = { originalEvent: event, canvas: this._canvas, relativePosition: position };
             resolve(drawingEvent);
             this._emitter.emit('drawing', drawingEvent);
         };
 
-        const endDraw = (event: MouseEvent | TouchEvent) => {
+        const endDraw = (position: RelativePosition, event: MouseEvent | TouchEvent) => {
             if (!drawingFigure) return;
             document.body.removeChild(tmpCanvas);
             resolve();
@@ -179,9 +176,10 @@ export default class Painter {
             this._push(drawingFigure);
             resolve = noop;
             drawingFigure = null;
-            this._emitter.emit('drawEnd', event);
+            this._emitter.emit('drawEnd', { originalEvent: event, canvas: this._canvas, relativePosition: position });
         };
 
+        let lastTouch: Touch | null = null;
         const offEvents = [
             on(canvas, 'mousedown', (event) => {
                 const position = normalizePosition(canvas, event);
@@ -192,21 +190,27 @@ export default class Painter {
                 const position = normalizePosition(canvas, event);
                 drawing(position, event);
             }),
-            on(document, 'mouseup', endDraw),
+            on(document, 'mouseup', (event) => {
+                const position = normalizePosition(canvas, event);
+                endDraw(position, event);
+            }),
             on(canvas, 'touchstart', (event) => {
-                const position = normalizePosition(canvas, event.touches[0]);
+                const position = normalizePosition(canvas, lastTouch = event.touches[0]);
                 startDraw(position, event);
                 drawing(position, event);
             }),
             on(document, 'touchmove', (event) => {
-                const position = normalizePosition(canvas, event.touches[0]);
+                const position = normalizePosition(canvas, lastTouch = event.touches[0]);
                 drawing(position, event);
             }),
-            on(document, 'touchend', endDraw),
+            on(document, 'touchend', (event) => {
+                const position = normalizePosition(canvas, lastTouch!);
+                endDraw(position, event);
+            }),
         ];
-    
+
         this.disableMouseDrawing = () => offEvents.forEach(off => off());
-    }    
+    }
 
     redraw() {
         this.clear();
@@ -216,9 +220,9 @@ export default class Painter {
     }
 }
 
-function on<E extends HTMLElement|Document, Event extends keyof EventMap<E>>(
+function on<E extends HTMLElement | Document, Event extends keyof EventMap<E>>(
     element: E,
-    name: Event, 
+    name: Event,
     callback: (event: EventMap<E>[Event]) => void
 ) {
     (element as any).addEventListener(name, callback);
@@ -226,7 +230,7 @@ function on<E extends HTMLElement|Document, Event extends keyof EventMap<E>>(
 }
 
 function normalizePosition(
-    canvas: HTMLCanvasElement, 
+    canvas: HTMLCanvasElement,
     { clientX, clientY }: { clientX: number; clientY: number }
 ) {
     const { top, left, width, height } = canvas.getBoundingClientRect();
@@ -237,15 +241,13 @@ function normalizePosition(
 }
 
 function overlayStyle(origin: HTMLCanvasElement, target: HTMLCanvasElement) {
-    const {top, left, width, height} = origin.getBoundingClientRect();
-    Object.assign(target, {width: origin.width, height:origin.height});
-    Object.assign(target.style, { 
-        position: 'fixed', 
-        top: top + (width - origin.width)/2 +'px', 
-        left: left + (height - origin.height)/2 + 'px' 
+    const { top, left, width, height } = origin.getBoundingClientRect();
+    Object.assign(target, { width: origin.width, height: origin.height });
+    Object.assign(target.style, {
+        position: 'fixed',
+        top: top + (width - origin.width) / 2 + 'px',
+        left: left + (height - origin.height) / 2 + 'px'
     });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-function noop(){
-}
+function noop() { }

@@ -10,7 +10,7 @@ const painter = (window as any).painter = new Painter({ canvas, width: 500, heig
 
 for (const radio of radios) {
     radio.addEventListener('change', () => {
-        painter.setOptions({type: (document.querySelector('input[name="draw-type"]:checked') as any).value});
+        painter.setOptions({ type: (document.querySelector('input[name="draw-type"]:checked') as any).value });
     });
 }
 
@@ -37,45 +37,52 @@ painter.draw(
         color: 'blue',
         thickness: 10,
         lineCap: 'round',
-    }, { 
-        x: 0.45800570994602724, 
-        y: 0.29400569993626097 
-    }, { 
-        x: 0.6980057245944656, 
-        y: 0.46000571006809754 
+    }, {
+        x: 0.45800570994602724,
+        y: 0.29400569993626097
+    }, {
+        x: 0.6980057245944656,
+        y: 0.46000571006809754
     })
 );
 
 
 painter.draw(
-    new Ellipse({  
+    new Ellipse({
         color: 'green',
         thickness: 2,
         lineCap: 'round'
-    },{ 
-        x: 0.589660464410864, 
-        y: 0.39722129782530574 
-    },{
+    }, {
+        x: 0.589660464410864,
+        y: 0.39722129782530574
+    }, {
         x: 0.8147651703463574,
-        y: 0.5984210792366761 
+        y: 0.5984210792366761
     })
 );
 
 painter.draw(
-    new StraightLine({  
+    new StraightLine({
         color: 'purple',
         thickness: 5,
         lineCap: 'square',
-    },{ 
-        x: 0.589660464410864, 
+    }, {
+        x: 0.589660464410864,
         y: 0.39722129782530574
-    },{
-        x: 0.8147651703463574, 
-        y: 0.5984210792366761 
+    }, {
+        x: 0.8147651703463574,
+        y: 0.5984210792366761
     })
 );
 
+painter.on('drawStart', (data) => {
+    console.log('drawStart', data);
+});
 
-painter.on('drawEnd', (positions, event) => {
-    console.log('drawEnd', positions, event);
+painter.on('drawing', (data) => {
+    console.log('drawing', data);
+});
+
+painter.on('drawEnd', (data) => {
+    console.log('drawEnd', data);
 });

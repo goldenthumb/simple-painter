@@ -1,22 +1,21 @@
-import {Figure, DrawStyle, RelativePosition, DrawingEvent, DrawingEventSource} from "../types";
+import { Figure, DrawStyle, RelativePosition, DrawingEventSource } from '../types';
 
-export default class Ellipse implements Figure{
-    constructor( 
+export default class Ellipse implements Figure {
+    constructor(
         private _style: DrawStyle,
         private _start?: RelativePosition,
         private _end?: RelativePosition,
-    ){
-    }
+    ) {}
 
-    async drawing(ctx: CanvasRenderingContext2D, events: DrawingEventSource){
-        const {width, height} = ctx.canvas;
+    async drawing(ctx: CanvasRenderingContext2D, events: DrawingEventSource) {
+        const { width, height } = ctx.canvas;
 
-        for await(const event of events) {
-            const {relativePosition} = event;
-            
-            if(this._start){
+        for await (const event of events) {
+            const { relativePosition } = event;
+
+            if (this._start) {
                 this._end = relativePosition;
-            }else{
+            } else {
                 this._start = this._end = relativePosition;
             }
 
@@ -25,11 +24,11 @@ export default class Ellipse implements Figure{
         }
     }
 
-    render(ctx: CanvasRenderingContext2D){
-        if(this._start === undefined || this._end === undefined) return;
+    render(ctx: CanvasRenderingContext2D) {
+        if (this._start === undefined || this._end === undefined) return;
 
         const { color, thickness, lineCap } = this._style;
-        const {canvas} = ctx;
+        const { canvas } = ctx;
 
         if (color) ctx.strokeStyle = color;
         if (thickness) ctx.lineWidth = thickness;
@@ -39,7 +38,6 @@ export default class Ellipse implements Figure{
 
         const startPosition = this._start;
         const position = this._end;
-        
         const startX = startPosition.x * canvas.width;
         const startY = startPosition.y * canvas.height;
         const x = position.x * canvas.width;

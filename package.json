@@ -16,13 +16,13 @@
         "test": "jest"
     },
     "repository": "https://github.com/goldenthumb/simple-painter.git",
-    "homepage" : "https://github.com/goldenthumb/simple-painter/",
+    "homepage": "https://github.com/goldenthumb/simple-painter/",
     "author": "goldenthumb <cyh8914@gmail.com>",
     "license": "MIT",
     "devDependencies": {
         "@types/jest": "^25.2.1",
         "eslint": "^6.8.0",
-        "eslint-config-goldenthumb": "^0.0.9",
+        "eslint-config-goldenthumb": "^0.0.11",
         "gh-pages": "^2.2.0",
         "jest": "^25.3.0",
         "jest-canvas-mock": "^2.2.0",
