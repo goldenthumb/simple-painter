@@ -16,6 +16,8 @@
         <label for="rectangle">rectangle</label>
         <input id="ellipse" type="radio" name="draw-type" value="ellipse" /> 
         <label for="ellipse">ellipse</label>
+        <button onclick="painter.undo()">undo</button>
+        <button onclick="painter.redo()">redo</button>
         <br /><br />
         <canvas id="canvas" style="border: 1px solid"></canvas>
     </div>
