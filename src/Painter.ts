@@ -251,7 +251,7 @@ function overlayStyle(origin: HTMLCanvasElement, target: HTMLCanvasElement) {
     const { top, left, width, height } = origin.getBoundingClientRect();
     Object.assign(target, { width: origin.width, height: origin.height });
     Object.assign(target.style, {
-        position: 'absolute',
+        position: 'fixed',
         top: top + (width - origin.width) / 2 + 'px',
         left: left + (height - origin.height) / 2 + 'px'
     });
