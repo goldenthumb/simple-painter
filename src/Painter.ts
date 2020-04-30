@@ -34,11 +34,13 @@ export interface PainterOptions {
 }
 
 export default class Painter {
-    drawOption: DrawOption;
     disableMouseDrawing = () => { };
 
     private _canvas: HTMLCanvasElement;
     private _ctx: CanvasRenderingContext2D;
+    private _tmpCanvas: HTMLCanvasElement;
+    private _tmpCtx: CanvasRenderingContext2D;
+    private _drawOption: DrawOption;
     private _emitter: EventEmitter;
     private _figures: Figure[] = [];
     private _cursor = 0;
@@ -61,7 +63,9 @@ export default class Painter {
         if (width) canvas.width = width;
         if (height) canvas.height = height;
 
-        this.drawOption = { type, color, thickness, lineCap };
+        this._tmpCanvas = document.createElement('canvas');
+        this._tmpCtx = this._tmpCanvas.getContext('2d')!;
+        this._drawOption = { type, color, thickness, lineCap };
         this._emitter = new EventEmitter();
 
         if (drawMouse) this.enableMouseDrawing();
@@ -79,9 +83,14 @@ export default class Painter {
         return this._emitter.on(name, listener);
     }
 
+    setSize({ width, height }: { width?: number; height?: number }) {
+        if (width) this._canvas.width = width;
+        if (height) this._canvas.height = height;
+    }
+
     setOptions(drawOption: DrawOption) {
-        this.drawOption = {
-            ...this.drawOption,
+        this._drawOption = {
+            ...this._drawOption,
             ...drawOption,
         };
     }
@@ -89,10 +98,6 @@ export default class Painter {
     draw(figure: Figure) {
         this._push(figure);
         figure.render(this._ctx);
-    }
-
-    private _push(figure: Figure) {
-        (this._figures = this._figures.slice(0, this._cursor++)).push(figure);
     }
 
     undo() {
@@ -123,8 +128,6 @@ export default class Painter {
         this.disableMouseDrawing();
 
         const { canvas } = this;
-        const tmpCanvas = document.createElement('canvas');
-        const tmpCtx = tmpCanvas.getContext('2d')!;
 
         let drawingFigure: Figure | null = null;
         let resolve: (v?: DrawingEvent) => void = noop;
@@ -137,27 +140,27 @@ export default class Painter {
         }
 
         const startDraw = (position: RelativePosition, event: MouseEvent | TouchEvent) => {
-            switch (this.drawOption.type) {
+            switch (this._drawOption.type) {
             case 'freeLine':
-                drawingFigure = new FreeLine(this.drawOption);
+                drawingFigure = new FreeLine(this._drawOption);
                 break;
             case 'straightLine':
-                drawingFigure = new StraightLine(this.drawOption);
+                drawingFigure = new StraightLine(this._drawOption);
                 break;
             case 'rectangle':
-                drawingFigure = new Rectangle(this.drawOption);
+                drawingFigure = new Rectangle(this._drawOption);
                 break;
             case 'ellipse':
-                drawingFigure = new Ellipse(this.drawOption);
+                drawingFigure = new Ellipse(this._drawOption);
                 break;
             default:
-                throw new Error(`There is no figure of "${this.drawOption.type}" type.`);
+                throw new Error(`There is no figure of "${this._drawOption.type}" type.`);
             }
 
-            overlayStyle(canvas, tmpCanvas);
-            document.body.appendChild(tmpCanvas);
+            overlayStyle(canvas, this._tmpCanvas);
+            document.body.appendChild(this._tmpCanvas);
 
-            drawingFigure.drawing(tmpCtx, drawingEvents());
+            drawingFigure.drawing(this._tmpCtx, drawingEvents());
             this._emitter.emit('drawStart', { originalEvent: event, canvas: this._canvas, relativePosition: position });
         };
 
@@ -170,9 +173,9 @@ export default class Painter {
 
         const endDraw = (position: RelativePosition, event: MouseEvent | TouchEvent) => {
             if (!drawingFigure) return;
-            document.body.removeChild(tmpCanvas);
+            document.body.removeChild(this._tmpCanvas);
             resolve();
-            this._ctx.drawImage(tmpCanvas, 0, 0);
+            this._ctx.drawImage(this._tmpCanvas, 0, 0);
             this._push(drawingFigure);
             resolve = noop;
             drawingFigure = null;
@@ -218,6 +221,10 @@ export default class Painter {
             figure.render(this._ctx);
         }
     }
+
+    private _push(figure: Figure) {
+        (this._figures = this._figures.slice(0, this._cursor++)).push(figure);
+    }
 }
 
 function on<E extends HTMLElement | Document, Event extends keyof EventMap<E>>(
@@ -244,7 +251,7 @@ function overlayStyle(origin: HTMLCanvasElement, target: HTMLCanvasElement) {
     const { top, left, width, height } = origin.getBoundingClientRect();
     Object.assign(target, { width: origin.width, height: origin.height });
     Object.assign(target.style, {
-        position: 'fixed',
+        position: 'absolute',
         top: top + (width - origin.width) / 2 + 'px',
         left: left + (height - origin.height) / 2 + 'px'
     });
