@@ -8,6 +8,8 @@
 </head>
 <body>
     <div id="root">
+        <input id="color" type="color" value="#ff0000" />
+        &nbsp;&nbsp;&nbsp;
         <input id="freeLine" type="radio" name="draw-type" value="freeLine" checked /> 
         <label for="freeLine">freeLine</label>
         <input id="straightLine" type="radio" name="draw-type" value="straightLine" /> 
@@ -16,8 +18,10 @@
         <label for="rectangle">rectangle</label>
         <input id="ellipse" type="radio" name="draw-type" value="ellipse" /> 
         <label for="ellipse">ellipse</label>
+        &nbsp;&nbsp;&nbsp;
         <button onclick="painter.undo()">undo</button>
         <button onclick="painter.redo()">redo</button>
+        <button onclick="painter.clear()">clear</button>
         <br /><br />
         <canvas id="canvas" style="border: 1px solid"></canvas>
     </div>

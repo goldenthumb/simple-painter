@@ -1,12 +1,20 @@
-import Painter from '../src';
-import FreeLine from '../src/Figure/FreeLine';
-import Rectangle from '../src/Figure/Rectangle';
-import Ellipse from '../src/Figure/Ellipse';
-import StraightLine from '../src/Figure/StraightLine';
+import Painter, { FreeLine, Rectangle, Ellipse, StraightLine } from '../src';
 
+const color = document.getElementById('color') as HTMLInputElement;
 const radios = document.getElementsByName('draw-type');
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-const painter = (window as any).painter = new Painter({ canvas, width: 500, height: 500 });
+
+const painter = (window as any).painter = new Painter({ 
+    canvas, 
+    width: 600, 
+    height: 600, 
+    lineCap: 'round',
+    thickness: 3,
+    color: color.value,
+    type: (document.querySelector('input[name="draw-type"]:checked') as any).value,
+});
+
+color.addEventListener('change', () => painter.setOptions({ color: color.value }));
 
 for (const radio of radios) {
     radio.addEventListener('change', () => {
@@ -23,9 +31,6 @@ painter.draw(
         { x: 0.537866461275263, y: 0.24183928841850494 },
         { x: 0.655767612752637, y: 0.14106861275263723 },
         { x: 0.654859612752637, y: 0.14429961275263721 },
-        { x: 0.652134612752637, y: 0.15560861275263723 },
-        { x: 0.649416127526371, y: 0.16368561275263742 },
-        { x: 0.643052612752637, y: 0.18630261275263712 },
         { x: 0.640327612752637, y: 0.19599561275263723 },
         { x: 0.638516127526372, y: 0.20245761275263723 },
     ])
@@ -45,7 +50,6 @@ painter.draw(
         y: 0.46000571006809754
     })
 );
-
 
 painter.draw(
     new Ellipse({
