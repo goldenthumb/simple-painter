@@ -1,6 +1,6 @@
 {
     "name": "simple-painter",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "main": "dist/index.js",
     "umd:main": "dist/index.umd.js",
     "module": "dist/index.m.js",
@@ -11,7 +11,7 @@
     ],
     "scripts": {
         "start": "parcel example/index.html",
-        "build": "rm -rf dist && microbundle build",
+        "build": "rm -rf dist && microbundle build && webpack",
         "deploy": "parcel build example/index.html --no-source-maps --public-url ./ && gh-pages -d dist",
         "test": "jest"
     },
@@ -20,7 +20,13 @@
     "author": "goldenthumb <cyh8914@gmail.com>",
     "license": "MIT",
     "devDependencies": {
+        "@babel/core": "^7.10.3",
+        "@babel/plugin-proposal-class-properties": "^7.10.1",
+        "@babel/plugin-transform-runtime": "^7.10.3",
+        "@babel/preset-env": "^7.10.3",
+        "@babel/preset-typescript": "^7.10.1",
         "@types/jest": "^25.2.1",
+        "babel-loader": "^8.1.0",
         "eslint": "^6.8.0",
         "eslint-config-goldenthumb": "^0.0.11",
         "gh-pages": "^2.2.0",
@@ -29,7 +35,9 @@
         "microbundle": "^0.11.0",
         "parcel-bundler": "^1.12.4",
         "ts-jest": "^25.3.1",
-        "typescript": "^3.8.3"
+        "typescript": "^3.8.3",
+        "webpack": "^4.43.0",
+        "webpack-cli": "^3.3.12"
     },
     "eslintConfig": {
         "extends": "goldenthumb/typescript"

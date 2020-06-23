@@ -6,7 +6,10 @@
         "esModuleInterop": true,
         "moduleResolution": "Node",
         "declaration": true,
-        "lib": ["dom", "es2015"],
+        "lib": [
+            "dom",
+            "ESNext"
+        ],
         "outDir": "./dist"
     },
     "include": [

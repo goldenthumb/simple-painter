@@ -35,7 +35,7 @@ Create instance.
  * @param {width} [options.width]
  * @param {height} [options.height]
  * @param {boolean} [options.drawMouse]
- * @param {'freeLine'|'straightLine'|'rectangle'|'ellipse'} [options.type]
+ * @param {'freeLine'|'straightLine'|'rectangle'|'ellipse'|'arrow'} [options.type]
  * @param {string|CanvasGradient|CanvasPattern} [options.color]
  * @param {number} [options.thickness]
  * @param {CanvasLineCap} [options.lineCap]
@@ -198,15 +198,15 @@ Returns Function to remove the event listener.
  * @param {{x: number, y: number}} data.relativePosition
  */
 painter.on('drawStart', (data) => {
-    console.log(position, event);
+    console.log(data);
 });
 
 painter.on('drawing', (data) => {
-    console.log(position, event);
+    console.log(data);
 });
 
 painter.on('drawEnd',(data) => {
-    console.log(position, event);
+    console.log(data);
 });
 ```
 
