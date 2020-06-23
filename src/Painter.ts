@@ -47,7 +47,7 @@ export default class Painter {
     private _cursor = 0;
 
     constructor({
-        canvas, 
+        canvas,
         width,
         height,
         drawMouse = true,
@@ -70,6 +70,10 @@ export default class Painter {
         this._emitter = new EventEmitter();
 
         if (drawMouse) this.enableMouseDrawing();
+    }
+
+    get drawOption() {
+        return this._drawOption;
     }
 
     get canvas() {
@@ -142,23 +146,23 @@ export default class Painter {
 
         const startDraw = (position: RelativePosition, event: MouseEvent | TouchEvent) => {
             switch (this._drawOption.type) {
-            case 'freeLine':
-                drawingFigure = new FreeLine(this._drawOption);
-                break;
-            case 'straightLine':
-                drawingFigure = new StraightLine(this._drawOption);
-                break;
-            case 'arrow':
-                drawingFigure = new Arrow(this._drawOption);
-                break;
-            case 'rectangle':
-                drawingFigure = new Rectangle(this._drawOption);
-                break;
-            case 'ellipse':
-                drawingFigure = new Ellipse(this._drawOption);
-                break;
-            default:
-                throw new Error(`There is no figure of "${this._drawOption.type}" type.`);
+                case 'freeLine':
+                    drawingFigure = new FreeLine(this._drawOption);
+                    break;
+                case 'straightLine':
+                    drawingFigure = new StraightLine(this._drawOption);
+                    break;
+                case 'arrow':
+                    drawingFigure = new Arrow(this._drawOption);
+                    break;
+                case 'rectangle':
+                    drawingFigure = new Rectangle(this._drawOption);
+                    break;
+                case 'ellipse':
+                    drawingFigure = new Ellipse(this._drawOption);
+                    break;
+                default:
+                    throw new Error(`There is no figure of "${this._drawOption.type}" type.`);
             }
 
             overlayStyle(canvas, this._tmpCanvas);
