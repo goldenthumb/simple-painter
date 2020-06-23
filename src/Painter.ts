@@ -4,11 +4,12 @@ import FreeLine from './Figure/FreeLine';
 import StraightLine from './Figure/StraightLine';
 import Rectangle from './Figure/Rectangle';
 import Ellipse from './Figure/Ellipse';
+import Arrow from './Figure/Arrow';
 
 type EventMap<Element = HTMLElement> = Element extends Document ? DocumentEventMap : HTMLElementEventMap;
 
 export type DrawThickness = number;
-export type DrawType = 'freeLine' | 'straightLine' | 'rectangle' | 'ellipse';
+export type DrawType = 'freeLine' | 'straightLine' | 'rectangle' | 'ellipse' | 'arrow';
 export type DrawColor = string | CanvasGradient | CanvasPattern;
 
 export interface DrawOption {
@@ -147,6 +148,9 @@ export default class Painter {
             case 'straightLine':
                 drawingFigure = new StraightLine(this._drawOption);
                 break;
+            case 'arrow':
+                drawingFigure = new Arrow(this._drawOption);
+                break;
             case 'rectangle':
                 drawingFigure = new Rectangle(this._drawOption);
                 break;
@@ -189,26 +193,22 @@ export default class Painter {
                 startDraw(position, event);
                 drawing(position, event);
             }),
-            on(document, 'mousemove', (event) => {
-                const position = normalizePosition(canvas, event);
-                drawing(position, event);
-            }),
-            on(document, 'mouseup', (event) => {
-                const position = normalizePosition(canvas, event);
-                endDraw(position, event);
-            }),
             on(canvas, 'touchstart', (event) => {
                 const position = normalizePosition(canvas, lastTouch = event.touches[0]);
                 startDraw(position, event);
                 drawing(position, event);
             }),
+            on(document, 'mousemove', (event) => {
+                drawing(normalizePosition(canvas, event), event);
+            }),
             on(document, 'touchmove', (event) => {
-                const position = normalizePosition(canvas, lastTouch = event.touches[0]);
-                drawing(position, event);
+                drawing(normalizePosition(canvas, lastTouch = event.touches[0]), event);
+            }),
+            on(document, 'mouseup', (event) => {
+                endDraw(normalizePosition(canvas, event), event);
             }),
             on(document, 'touchend', (event) => {
-                const position = normalizePosition(canvas, lastTouch!);
-                endDraw(position, event);
+                endDraw(normalizePosition(canvas, lastTouch!), event);
             }),
         ];
 
