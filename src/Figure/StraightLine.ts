@@ -1,41 +1,36 @@
-import { Figure, DrawStyle, RelativePosition, DrawingEventSource } from '../types';
+import { Figure, FigureData, DrawingEventSource } from '../types';
 
 export default class StraightLine implements Figure {
     constructor(
-        private _style: DrawStyle,
-        private _start?: RelativePosition,
-        private _end?: RelativePosition,
+        private _data: FigureData
     ) {}
+
+    getData() {
+        return this._data;
+    }
 
     async drawing(ctx: CanvasRenderingContext2D, events: DrawingEventSource) {
         const { width, height } = ctx.canvas;
 
         for await (const event of events) {
             const { relativePosition } = event;
-
-            if (this._start) {
-                this._end = relativePosition;
-            } else {
-                this._start = this._end = relativePosition;
-            }
-
+            this._data.positions.push(relativePosition);
             ctx.clearRect(0, 0, width, height);
             this.render(ctx);
         }
     }
 
     render(ctx: CanvasRenderingContext2D) {
-        if (this._start === undefined || this._end === undefined) return;
+        const { drawOption: { color, thickness, lineCap }, positions } = this._data;
+        if (positions.length < 2) return;
 
-        const { color, thickness, lineCap } = this._style;
         const { width, height } = ctx.canvas;
+        const { x: startX, y: startY } = positions[0];
+        const { x, y } = positions[positions.length - 1];
 
         if (color) ctx.strokeStyle = color;
         if (thickness) ctx.lineWidth = thickness;
         if (lineCap) ctx.lineCap = lineCap;
-
-        const { x: startX, y: startY } = this._start;
-        const { x, y } = this._end;
 
         ctx.beginPath();
         ctx.moveTo(startX * width, startY * height);

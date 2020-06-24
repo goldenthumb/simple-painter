@@ -1,27 +1,20 @@
 import EventEmitter, { Listener } from './EventEmitter';
-import { Figure, RelativePosition, DrawingEvent } from './types';
+import { 
+    EventMap, 
+    DrawType, 
+    DrawThickness, 
+    DrawColor, 
+    DrawOption, 
+    Figure, 
+    FigureData, 
+    RelativePosition,
+    DrawingEvent 
+} from './types';
 import FreeLine from './Figure/FreeLine';
 import StraightLine from './Figure/StraightLine';
 import Rectangle from './Figure/Rectangle';
 import Ellipse from './Figure/Ellipse';
 import Arrow from './Figure/Arrow';
-
-type EventMap<Element = HTMLElement> = Element extends Document ? DocumentEventMap : HTMLElementEventMap;
-
-export type DrawThickness = number;
-export type DrawType = 'freeLine' | 'straightLine' | 'rectangle' | 'ellipse' | 'arrow';
-export type DrawColor = string | CanvasGradient | CanvasPattern;
-
-export interface DrawOption {
-    type?: DrawType;
-    color?: DrawColor;
-    thickness?: DrawThickness;
-    lineCap?: CanvasLineCap;
-}
-
-export interface DrawFigure extends DrawOption {
-    positions: RelativePosition[];
-}
 
 export interface PainterOptions {
     canvas: HTMLCanvasElement;
@@ -32,6 +25,7 @@ export interface PainterOptions {
     color?: DrawColor;
     thickness?: DrawThickness;
     lineCap?: CanvasLineCap;
+    figures?: FigureData[];
 }
 
 export default class Painter {
@@ -54,7 +48,8 @@ export default class Painter {
         type = 'freeLine',
         color = 'red',
         thickness = 3,
-        lineCap = 'square'
+        lineCap = 'square',
+        figures = [],
     }: PainterOptions) {
         this._canvas = canvas;
         if (!(this._ctx = canvas.getContext('2d')!)) {
@@ -70,6 +65,7 @@ export default class Painter {
         this._emitter = new EventEmitter();
 
         if (drawMouse) this.enableMouseDrawing();
+        for (const figure of figures) this.draw(figure);
     }
 
     get drawOption() {
@@ -78,6 +74,10 @@ export default class Painter {
 
     get canvas() {
         return this._canvas;
+    }
+
+    get figures() {
+        return this._figures.map((figure: Figure) => figure.getData());
     }
 
     get size() {
@@ -100,7 +100,8 @@ export default class Painter {
         };
     }
 
-    draw(figure: Figure) {
+    draw({ drawOption, positions }: FigureData) {
+        const figure = createFigure(drawOption, positions);
         this._push(figure);
         figure.render(this._ctx);
     }
@@ -134,7 +135,7 @@ export default class Painter {
 
         const { canvas } = this;
 
-        let drawingFigure: Figure | null = null;
+        let figure: Figure | null = null;
         let resolve: (v?: DrawingEvent) => void = noop;
 
         async function* drawingEvents() {
@@ -145,48 +146,28 @@ export default class Painter {
         }
 
         const startDraw = (position: RelativePosition, event: MouseEvent | TouchEvent) => {
-            switch (this._drawOption.type) {
-                case 'freeLine':
-                    drawingFigure = new FreeLine(this._drawOption);
-                    break;
-                case 'straightLine':
-                    drawingFigure = new StraightLine(this._drawOption);
-                    break;
-                case 'arrow':
-                    drawingFigure = new Arrow(this._drawOption);
-                    break;
-                case 'rectangle':
-                    drawingFigure = new Rectangle(this._drawOption);
-                    break;
-                case 'ellipse':
-                    drawingFigure = new Ellipse(this._drawOption);
-                    break;
-                default:
-                    throw new Error(`There is no figure of "${this._drawOption.type}" type.`);
-            }
-
+            figure = createFigure(this._drawOption);
             overlayStyle(canvas, this._tmpCanvas);
             document.body.appendChild(this._tmpCanvas);
-
-            drawingFigure.drawing(this._tmpCtx, drawingEvents());
+            figure.drawing(this._tmpCtx, drawingEvents());
             this._emitter.emit('drawStart', { originalEvent: event, canvas: this._canvas, relativePosition: position });
         };
 
         const drawing = (position: RelativePosition, event: MouseEvent | TouchEvent) => {
-            if (!drawingFigure) return;
+            if (!figure) return;
             const drawingEvent = { originalEvent: event, canvas: this._canvas, relativePosition: position };
             resolve(drawingEvent);
             this._emitter.emit('drawing', drawingEvent);
         };
 
         const endDraw = (position: RelativePosition, event: MouseEvent | TouchEvent) => {
-            if (!drawingFigure) return;
+            if (!figure) return;
             document.body.removeChild(this._tmpCanvas);
             resolve();
             this._ctx.drawImage(this._tmpCanvas, 0, 0);
-            this._push(drawingFigure);
+            this._push(figure);
             resolve = noop;
-            drawingFigure = null;
+            figure = null;
             this._emitter.emit('drawEnd', { originalEvent: event, canvas: this._canvas, relativePosition: position });
         };
 
@@ -238,6 +219,23 @@ function on<E extends HTMLElement | Document, Event extends keyof EventMap<E>>(
 ) {
     (element as any).addEventListener(name, callback);
     return () => (element as any).removeEventListener(name, callback);
+}
+
+function createFigure(drawOption: DrawOption, positions: RelativePosition[] = []) {
+    switch (drawOption.type) {
+        case 'freeLine':
+            return new FreeLine({ drawOption, positions });
+        case 'straightLine':
+            return new StraightLine({ drawOption, positions });
+        case 'arrow':
+            return new Arrow({ drawOption, positions });
+        case 'rectangle':
+            return new Rectangle({ drawOption, positions });
+        case 'ellipse':
+            return new Ellipse({ drawOption, positions });
+        default:
+            throw new Error(`There is no figure of "${drawOption.type}" type.`);
+    }
 }
 
 function normalizePosition(

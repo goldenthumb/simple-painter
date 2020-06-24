@@ -12,7 +12,9 @@
         "start": "parcel example/index.html",
         "build": "rm -rf dist && microbundle build && webpack",
         "deploy": "parcel build example/index.html --no-source-maps --public-url ./ && gh-pages -d dist",
-        "test": "jest"
+        "lint": "eslint 'src/**/*.ts'",
+        "lint-fix": "eslint --fix 'src/**/*.ts'",
+        "precommit-msg": "echo 'Pre-commit checks(lint, test)...' && exit 0"
     },
     "repository": "https://github.com/goldenthumb/simple-painter.git",
     "homepage": "https://github.com/goldenthumb/simple-painter/",
@@ -24,32 +26,25 @@
         "@babel/plugin-transform-runtime": "^7.10.3",
         "@babel/preset-env": "^7.10.3",
         "@babel/preset-typescript": "^7.10.1",
-        "@types/jest": "^25.2.1",
         "babel-loader": "^8.1.0",
-        "eslint": "^6.8.0",
-        "eslint-config-goldenthumb": "^0.0.11",
+        "eslint": "^7.3.1",
+        "eslint-config-goldenthumb": "^0.0.16",
         "gh-pages": "^2.2.0",
-        "jest": "^25.3.0",
-        "jest-canvas-mock": "^2.2.0",
         "microbundle": "^0.11.0",
         "parcel-bundler": "^1.12.4",
-        "ts-jest": "^25.3.1",
+        "pre-commit": "^1.2.2",
         "typescript": "^3.8.3",
         "webpack": "^4.43.0",
         "webpack-cli": "^3.3.12"
     },
+    "pre-commit": [
+        "precommit-msg",
+        "lint"
+    ],
     "eslintConfig": {
         "extends": "goldenthumb/typescript"
     },
     "eslintIgnore": [
         "dist"
-    ],
-    "jest": {
-        "transform": {
-            "^.+\\.ts$": "ts-jest"
-        },
-        "setupFiles": [
-            "jest-canvas-mock"
-        ]
-    }
+    ]
 }
