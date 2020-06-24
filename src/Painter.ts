@@ -210,7 +210,7 @@ export default class Painter {
     setFigures(figures: FigureData[]) {
         if (!figures.length) {
             this._figures = [];
-            this._emitter.emit('figures', this._figures);
+            this._emitter.emit('figures', this.figures);
             return;
         }
 
@@ -219,7 +219,7 @@ export default class Painter {
 
     private _push(figure: Figure) {
         (this._figures = this._figures.slice(0, this._cursor++)).push(figure);
-        this._emitter.emit('figures', this._figures);
+        this._emitter.emit('figures', this.figures);
     }
 }
 
