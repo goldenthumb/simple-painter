@@ -77,14 +77,14 @@ export default class Painter {
     }
 
     get figures() {
-        return this._figures.map((figure: Figure) => figure.getData());
+        return this._figures.map((figure) => figure.data);
     }
 
     get size() {
         return { width: this._canvas.width, height: this._canvas.height };
     }
 
-    on(name: 'drawStart' | 'drawing' | 'drawEnd', listener: Listener) {
+    on(name: 'drawStart' | 'drawing' | 'drawEnd' | 'figures', listener: Listener) {
         return this._emitter.on(name, listener);
     }
 
@@ -207,8 +207,19 @@ export default class Painter {
         }
     }
 
+    setFigures(figures: FigureData[]) {
+        if (!figures.length) {
+            this._figures = [];
+            this._emitter.emit('figures', this._figures);
+            return;
+        }
+
+        for (const figure of figures) this.draw(figure);
+    }
+
     private _push(figure: Figure) {
         (this._figures = this._figures.slice(0, this._cursor++)).push(figure);
+        this._emitter.emit('figures', this._figures);
     }
 }
 

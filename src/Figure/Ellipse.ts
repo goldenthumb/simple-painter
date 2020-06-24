@@ -3,7 +3,7 @@ import { Figure, FigureData, DrawingEventSource } from '../types';
 export default class Ellipse implements Figure {
     constructor(private _data: FigureData) {}
 
-    getData() {
+    get data() {
         return this._data;
     }
 

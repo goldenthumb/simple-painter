@@ -5,7 +5,7 @@ export default class FreeLine implements Figure {
         private _data: FigureData
     ) {}
 
-    getData() {
+    get data() {
         return this._data;
     }
 

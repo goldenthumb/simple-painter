@@ -149,6 +149,22 @@ painter.draw({
 ```
 <br />
 
+#### painter.redraw()
+redraw.
+
+```js
+painter.redraw();
+```
+<br />
+
+#### painter.setFigures(figures)
+Set Figures.
+
+```js
+painter.setFigures(figures);
+```
+<br />
+
 #### painter.undo()
 Undo draw.
 
@@ -207,6 +223,15 @@ painter.on('drawing', (data) => {
 });
 
 painter.on('drawEnd',(data) => {
+    console.log(data);
+});
+```
+<br />
+
+- figures - Event occurs when change figure.
+
+```js
+painter.on('figures', (data) => {
     console.log(data);
 });
 ```

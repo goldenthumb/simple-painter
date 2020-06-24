@@ -102,3 +102,7 @@ painter.on('drawing', (data) => {
 painter.on('drawEnd', (data) => {
     console.log('drawEnd', data);
 });
+
+painter.on('figures', (data) => {
+    console.log('figures', data);
+});

@@ -24,7 +24,7 @@ export interface FigureData {
 }
 
 export interface Figure {
-    getData(): FigureData;
+    readonly data: FigureData;
     drawing(ctx: CanvasRenderingContext2D, events: DrawingEventSource): void;
     render(ctx: CanvasRenderingContext2D): void;
 }
