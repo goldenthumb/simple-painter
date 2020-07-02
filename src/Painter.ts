@@ -125,6 +125,10 @@ export default class Painter {
         this._ctx.clearRect(0, 0, width, height);
     }
 
+    allOff() {
+        this._emitter.allOff();
+    }
+
     destroy() {
         this.disableMouseDrawing();
         this._emitter.allOff();

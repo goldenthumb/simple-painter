@@ -189,8 +189,16 @@ painter.clear();
 ```
 <br />
 
+#### painter.allOff()
+remove all events.
+
+```js
+painter.allOff();
+```
+<br />
+
 #### painter.destroy()
-Remove events.
+destroy.
 
 ```js
 painter.destroy();
