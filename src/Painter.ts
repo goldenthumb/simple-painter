@@ -264,8 +264,8 @@ function normalizePosition(
     const y = clientY - top;
 
     return type === 'freeLine' ? {
-        x: Number((x - thickness!) / width),
-        y: Number((y - thickness!) / height)
+        x: Number(x / width),
+        y: Number(y / height)
     } : {
         x: Number((x < 0 ? 0 + thickness! / 2 : x > width ? width - thickness! / 2 : x) / width),
         y: Number((y < 0 ? 0 + thickness! / 2 : y > height ? height - thickness! / 2 : y) / height)
