@@ -196,7 +196,7 @@ export default class Painter {
             on(document, 'mouseup', (event) => {
                 endDraw(normalizePosition(canvas, event, this._drawOption), event);
             }),
-            on(document, 'touchend', (event) => {
+            on(canvas, 'touchend', (event) => {
                 endDraw(normalizePosition(canvas, lastTouch!, this._drawOption), event);
             }),
         ];
