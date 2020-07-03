@@ -39,13 +39,20 @@ export default class StraightLine implements Figure {
         const startY = start.y * height;
         const endX = end.x * width;
         const endY = end.y * height;
-        const controlPoints = [0, thickness! / 2, -12, thickness! / 2, -15, 8];
         const dx = endX - startX;
         const dy = endY - startY;
         const len = Math.sqrt(dx * dx + dy * dy);
         const sin = dy / len;
         const cos = dx / len;
         const a = [];
+        const controlPoints = [
+            0, 
+            thickness! / 2, 
+            -(9 + thickness!), 
+            thickness! / 2, 
+            -(12 + thickness! * 1.2), 
+            (5 + thickness!)
+        ];
 
         ctx.beginPath();
         a.push(0, 0);

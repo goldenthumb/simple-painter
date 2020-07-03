@@ -178,26 +178,26 @@ export default class Painter {
         let lastTouch: Touch | null = null;
         const offEvents = [
             on(canvas, 'mousedown', (event) => {
-                const position = normalizePosition(canvas, event);
+                const position = normalizePosition(canvas, event, this._drawOption);
                 startDraw(position, event);
                 drawing(position, event);
             }),
             on(canvas, 'touchstart', (event) => {
-                const position = normalizePosition(canvas, lastTouch = event.touches[0]);
+                const position = normalizePosition(canvas, lastTouch = event.touches[0], this._drawOption);
                 startDraw(position, event);
                 drawing(position, event);
             }),
             on(document, 'mousemove', (event) => {
-                drawing(normalizePosition(canvas, event), event);
+                drawing(normalizePosition(canvas, event, this._drawOption), event);
             }),
             on(document, 'touchmove', (event) => {
-                drawing(normalizePosition(canvas, lastTouch = event.touches[0]), event);
+                drawing(normalizePosition(canvas, lastTouch = event.touches[0], this._drawOption), event);
             }),
             on(document, 'mouseup', (event) => {
-                endDraw(normalizePosition(canvas, event), event);
+                endDraw(normalizePosition(canvas, event, this._drawOption), event);
             }),
             on(document, 'touchend', (event) => {
-                endDraw(normalizePosition(canvas, lastTouch!), event);
+                endDraw(normalizePosition(canvas, lastTouch!, this._drawOption), event);
             }),
         ];
 
@@ -255,12 +255,20 @@ function createFigure(drawOption: DrawOption, positions: RelativePosition[] = []
 
 function normalizePosition(
     canvas: HTMLCanvasElement,
-    { clientX, clientY }: { clientX: number; clientY: number }
+    { clientX, clientY }: { clientX: number; clientY: number },
+    drawOption: DrawOption
 ) {
     const { top, left, width, height } = canvas.getBoundingClientRect();
-    return {
-        x: Number((clientX - left) / width),
-        y: Number((clientY - top) / height)
+    const { type, thickness } = drawOption;
+    const x = clientX - left;
+    const y = clientY - top;
+
+    return type === 'freeLine' ? {
+        x: Number((x - thickness!) / width),
+        y: Number((y - thickness!) / height)
+    } : {
+        x: Number((x < 0 ? 0 + thickness! / 2 : x > width ? width - thickness! / 2 : x) / width),
+        y: Number((y < 0 ? 0 + thickness! / 2 : y > height ? height - thickness! / 2 : y) / height)
     };
 }
 
