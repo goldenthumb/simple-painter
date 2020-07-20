@@ -123,6 +123,7 @@ export default class Painter {
     clear() {
         const { width, height } = this.size;
         this._ctx.clearRect(0, 0, width, height);
+        this.setFigures([]);
     }
 
     allOff() {
@@ -205,19 +206,17 @@ export default class Painter {
     }
 
     redraw() {
-        this.clear();
+        const { width, height } = this.size;
+        this._ctx.clearRect(0, 0, width, height);
+
         for (const figure of this._figures.slice(0, this._cursor)) {
             figure.render(this._ctx);
         }
     }
 
-    setFigures(figures: FigureData[]) {
-        if (!figures.length) {
-            this._figures = [];
-            this._emitter.emit('figures', this.figures);
-            return;
-        }
-
+    setFigures(figures: FigureData[] = []) {
+        this._figures = [];
+        this._cursor = 0;
         for (const figure of figures) this.draw(figure);
     }
 
