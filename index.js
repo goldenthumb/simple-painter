@@ -1,1 +1,392 @@
-module.exports=function(t){var e={};function n(r){if(e[r])return e[r].exports;var i=e[r]={i:r,l:!1,exports:{}};return t[r].call(i.exports,i,i.exports,n),i.l=!0,i.exports}return n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var i in t)n.d(r,i,function(e){return t[e]}.bind(null,i));return r},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=9)}([function(t,e,n){t.exports=n(10)},function(t,e){t.exports=function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}},function(t,e){function n(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}t.exports=function(t,e,r){return e&&n(t.prototype,e),r&&n(t,r),t}},function(t,e){t.exports=function(t,e,n){return e in t?Object.defineProperty(t,e,{value:n,enumerable:!0,configurable:!0,writable:!0}):t[e]=n,t}},function(t,e){function n(t,e,n,r,i,o,a){try{var s=t[o](a),u=s.value}catch(t){return void n(t)}s.done?e(u):Promise.resolve(u).then(r,i)}t.exports=function(t){return function(){var e=this,r=arguments;return new Promise((function(i,o){var a=t.apply(e,r);function s(t){n(a,i,o,s,u,"next",t)}function u(t){n(a,i,o,s,u,"throw",t)}s(void 0)}))}}},function(t,e){t.exports=function(t){var e;if("undefined"!=typeof Symbol){if(Symbol.asyncIterator&&null!=(e=t[Symbol.asyncIterator]))return e.call(t);if(Symbol.iterator&&null!=(e=t[Symbol.iterator]))return e.call(t)}throw new TypeError("Object is not async iterable")}},function(t,e){t.exports=function(t){this.wrapped=t}},function(t,e,n){var r=n(6);t.exports=function(t){return new r(t)}},function(t,e,n){var r=n(11);t.exports=function(t){return function(){return new r(t.apply(this,arguments))}}},function(t,e,n){t.exports=n(12)},function(t,e,n){var r=function(t){"use strict";var e=Object.prototype,n=e.hasOwnProperty,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",o=r.asyncIterator||"@@asyncIterator",a=r.toStringTag||"@@toStringTag";function s(t,e,n,r){var i=e&&e.prototype instanceof h?e:h,o=Object.create(i.prototype),a=new x(r||[]);return o._invoke=function(t,e,n){var r="suspendedStart";return function(i,o){if("executing"===r)throw new Error("Generator is already running");if("completed"===r){if("throw"===i)throw o;return O()}for(n.method=i,n.arg=o;;){var a=n.delegate;if(a){var s=m(a,n);if(s){if(s===c)continue;return s}}if("next"===n.method)n.sent=n._sent=n.arg;else if("throw"===n.method){if("suspendedStart"===r)throw r="completed",n.arg;n.dispatchException(n.arg)}else"return"===n.method&&n.abrupt("return",n.arg);r="executing";var h=u(t,e,n);if("normal"===h.type){if(r=n.done?"completed":"suspendedYield",h.arg===c)continue;return{value:h.arg,done:n.done}}"throw"===h.type&&(r="completed",n.method="throw",n.arg=h.arg)}}}(t,n,a),o}function u(t,e,n){try{return{type:"normal",arg:t.call(e,n)}}catch(t){return{type:"throw",arg:t}}}t.wrap=s;var c={};function h(){}function f(){}function l(){}var v={};v[i]=function(){return this};var p=Object.getPrototypeOf,d=p&&p(p(k([])));d&&d!==e&&n.call(d,i)&&(v=d);var y=l.prototype=h.prototype=Object.create(v);function w(t){["next","throw","return"].forEach((function(e){t[e]=function(t){return this._invoke(e,t)}}))}function g(t,e){var r;this._invoke=function(i,o){function a(){return new e((function(r,a){!function r(i,o,a,s){var c=u(t[i],t,o);if("throw"!==c.type){var h=c.arg,f=h.value;return f&&"object"==typeof f&&n.call(f,"__await")?e.resolve(f.__await).then((function(t){r("next",t,a,s)}),(function(t){r("throw",t,a,s)})):e.resolve(f).then((function(t){h.value=t,a(h)}),(function(t){return r("throw",t,a,s)}))}s(c.arg)}(i,o,r,a)}))}return r=r?r.then(a,a):a()}}function m(t,e){var n=t.iterator[e.method];if(void 0===n){if(e.delegate=null,"throw"===e.method){if(t.iterator.return&&(e.method="return",e.arg=void 0,m(t,e),"throw"===e.method))return c;e.method="throw",e.arg=new TypeError("The iterator does not provide a 'throw' method")}return c}var r=u(n,t.iterator,e.arg);if("throw"===r.type)return e.method="throw",e.arg=r.arg,e.delegate=null,c;var i=r.arg;return i?i.done?(e[t.resultName]=i.value,e.next=t.nextLoc,"return"!==e.method&&(e.method="next",e.arg=void 0),e.delegate=null,c):i:(e.method="throw",e.arg=new TypeError("iterator result is not an object"),e.delegate=null,c)}function b(t){var e={tryLoc:t[0]};1 in t&&(e.catchLoc=t[1]),2 in t&&(e.finallyLoc=t[2],e.afterLoc=t[3]),this.tryEntries.push(e)}function _(t){var e=t.completion||{};e.type="normal",delete e.arg,t.completion=e}function x(t){this.tryEntries=[{tryLoc:"root"}],t.forEach(b,this),this.reset(!0)}function k(t){if(t){var e=t[i];if(e)return e.call(t);if("function"==typeof t.next)return t;if(!isNaN(t.length)){var r=-1,o=function e(){for(;++r<t.length;)if(n.call(t,r))return e.value=t[r],e.done=!1,e;return e.value=void 0,e.done=!0,e};return o.next=o}}return{next:O}}function O(){return{value:void 0,done:!0}}return f.prototype=y.constructor=l,l.constructor=f,l[a]=f.displayName="GeneratorFunction",t.isGeneratorFunction=function(t){var e="function"==typeof t&&t.constructor;return!!e&&(e===f||"GeneratorFunction"===(e.displayName||e.name))},t.mark=function(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,l):(t.__proto__=l,a in t||(t[a]="GeneratorFunction")),t.prototype=Object.create(y),t},t.awrap=function(t){return{__await:t}},w(g.prototype),g.prototype[o]=function(){return this},t.AsyncIterator=g,t.async=function(e,n,r,i,o){void 0===o&&(o=Promise);var a=new g(s(e,n,r,i),o);return t.isGeneratorFunction(n)?a:a.next().then((function(t){return t.done?t.value:a.next()}))},w(y),y[a]="Generator",y[i]=function(){return this},y.toString=function(){return"[object Generator]"},t.keys=function(t){var e=[];for(var n in t)e.push(n);return e.reverse(),function n(){for(;e.length;){var r=e.pop();if(r in t)return n.value=r,n.done=!1,n}return n.done=!0,n}},t.values=k,x.prototype={constructor:x,reset:function(t){if(this.prev=0,this.next=0,this.sent=this._sent=void 0,this.done=!1,this.delegate=null,this.method="next",this.arg=void 0,this.tryEntries.forEach(_),!t)for(var e in this)"t"===e.charAt(0)&&n.call(this,e)&&!isNaN(+e.slice(1))&&(this[e]=void 0)},stop:function(){this.done=!0;var t=this.tryEntries[0].completion;if("throw"===t.type)throw t.arg;return this.rval},dispatchException:function(t){if(this.done)throw t;var e=this;function r(n,r){return a.type="throw",a.arg=t,e.next=n,r&&(e.method="next",e.arg=void 0),!!r}for(var i=this.tryEntries.length-1;i>=0;--i){var o=this.tryEntries[i],a=o.completion;if("root"===o.tryLoc)return r("end");if(o.tryLoc<=this.prev){var s=n.call(o,"catchLoc"),u=n.call(o,"finallyLoc");if(s&&u){if(this.prev<o.catchLoc)return r(o.catchLoc,!0);if(this.prev<o.finallyLoc)return r(o.finallyLoc)}else if(s){if(this.prev<o.catchLoc)return r(o.catchLoc,!0)}else{if(!u)throw new Error("try statement without catch or finally");if(this.prev<o.finallyLoc)return r(o.finallyLoc)}}}},abrupt:function(t,e){for(var r=this.tryEntries.length-1;r>=0;--r){var i=this.tryEntries[r];if(i.tryLoc<=this.prev&&n.call(i,"finallyLoc")&&this.prev<i.finallyLoc){var o=i;break}}o&&("break"===t||"continue"===t)&&o.tryLoc<=e&&e<=o.finallyLoc&&(o=null);var a=o?o.completion:{};return a.type=t,a.arg=e,o?(this.method="next",this.next=o.finallyLoc,c):this.complete(a)},complete:function(t,e){if("throw"===t.type)throw t.arg;return"break"===t.type||"continue"===t.type?this.next=t.arg:"return"===t.type?(this.rval=this.arg=t.arg,this.method="return",this.next="end"):"normal"===t.type&&e&&(this.next=e),c},finish:function(t){for(var e=this.tryEntries.length-1;e>=0;--e){var n=this.tryEntries[e];if(n.finallyLoc===t)return this.complete(n.completion,n.afterLoc),_(n),c}},catch:function(t){for(var e=this.tryEntries.length-1;e>=0;--e){var n=this.tryEntries[e];if(n.tryLoc===t){var r=n.completion;if("throw"===r.type){var i=r.arg;_(n)}return i}}throw new Error("illegal catch attempt")},delegateYield:function(t,e,n){return this.delegate={iterator:k(t),resultName:e,nextLoc:n},"next"===this.method&&(this.arg=void 0),c}},t}(t.exports);try{regeneratorRuntime=r}catch(t){Function("r","regeneratorRuntime = r")(r)}},function(t,e,n){var r=n(6);function i(t){var e,n;function i(e,n){try{var a=t[e](n),s=a.value,u=s instanceof r;Promise.resolve(u?s.wrapped:s).then((function(t){u?i("return"===e?"return":"next",t):o(a.done?"return":"normal",t)}),(function(t){i("throw",t)}))}catch(t){o("throw",t)}}function o(t,r){switch(t){case"return":e.resolve({value:r,done:!0});break;case"throw":e.reject(r);break;default:e.resolve({value:r,done:!1})}(e=e.next)?i(e.key,e.arg):n=null}this._invoke=function(t,r){return new Promise((function(o,a){var s={key:t,arg:r,resolve:o,reject:a,next:null};n?n=n.next=s:(e=n=s,i(t,r))}))},"function"!=typeof t.return&&(this.return=void 0)}"function"==typeof Symbol&&Symbol.asyncIterator&&(i.prototype[Symbol.asyncIterator]=function(){return this}),i.prototype.next=function(t){return this._invoke("next",t)},i.prototype.throw=function(t){return this._invoke("throw",t)},i.prototype.return=function(t){return this._invoke("return",t)},t.exports=i},function(t,e,n){"use strict";n.r(e),n.d(e,"Painter",(function(){return M})),n.d(e,"Ellipse",(function(){return P})),n.d(e,"FreeLine",(function(){return O})),n.d(e,"Rectangle",(function(){return j})),n.d(e,"StraightLine",(function(){return S})),n.d(e,"Arrow",(function(){return E}));var r=n(0),i=n.n(r),o=n(1),a=n.n(o),s=n(2),u=n.n(s),c=n(3),h=n.n(c),f=n(7),l=n.n(f),v=n(8),p=n.n(v);function d(t,e){var n;if("undefined"==typeof Symbol||null==t[Symbol.iterator]){if(Array.isArray(t)||(n=function(t,e){if(!t)return;if("string"==typeof t)return y(t,e);var n=Object.prototype.toString.call(t).slice(8,-1);"Object"===n&&t.constructor&&(n=t.constructor.name);if("Map"===n||"Set"===n)return Array.from(t);if("Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return y(t,e)}(t))||e&&t&&"number"==typeof t.length){n&&(t=n);var r=0,i=function(){};return{s:i,n:function(){return r>=t.length?{done:!0}:{done:!1,value:t[r++]}},e:function(t){throw t},f:i}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}var o,a=!0,s=!1;return{s:function(){n=t[Symbol.iterator]()},n:function(){var t=n.next();return a=t.done,t},e:function(t){s=!0,o=t},f:function(){try{a||null==n.return||n.return()}finally{if(s)throw o}}}}function y(t,e){(null==e||e>t.length)&&(e=t.length);for(var n=0,r=new Array(e);n<e;n++)r[n]=t[n];return r}var w=function(){function t(){a()(this,t),h()(this,"_events",void 0),this._events={}}return u()(t,[{key:"emit",value:function(t){for(var e=arguments.length,n=new Array(e>1?e-1:0),r=1;r<e;r++)n[r-1]=arguments[r];var i,o=d(this._events[t]||[]);try{for(o.s();!(i=o.n()).done;){var a=i.value;a.apply(void 0,n)}}catch(t){o.e(t)}finally{o.f()}}},{key:"on",value:function(t,e){var n=this;return(this._events[t]=this._events[t]||[]).push(e),function(){return n._events[t]=n._events[t].filter((function(t){return t!==e}))}}},{key:"allOff",value:function(){this._events={}}}]),t}(),g=n(4),m=n.n(g),b=n(5),_=n.n(b);function x(t,e){var n;if("undefined"==typeof Symbol||null==t[Symbol.iterator]){if(Array.isArray(t)||(n=function(t,e){if(!t)return;if("string"==typeof t)return k(t,e);var n=Object.prototype.toString.call(t).slice(8,-1);"Object"===n&&t.constructor&&(n=t.constructor.name);if("Map"===n||"Set"===n)return Array.from(t);if("Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return k(t,e)}(t))||e&&t&&"number"==typeof t.length){n&&(t=n);var r=0,i=function(){};return{s:i,n:function(){return r>=t.length?{done:!0}:{done:!1,value:t[r++]}},e:function(t){throw t},f:i}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}var o,a=!0,s=!1;return{s:function(){n=t[Symbol.iterator]()},n:function(){var t=n.next();return a=t.done,t},e:function(t){s=!0,o=t},f:function(){try{a||null==n.return||n.return()}finally{if(s)throw o}}}}function k(t,e){(null==e||e>t.length)&&(e=t.length);for(var n=0,r=new Array(e);n<e;n++)r[n]=t[n];return r}var O=function(){function t(e,n){a()(this,t),this._style=e,this._positions=n}var e;return u()(t,[{key:"drawing",value:(e=m()(i.a.mark((function t(e,n){var r,o,a,s,u,c,h,f,l,v,p,d,y,w,g,m;return i.a.wrap((function(t){for(;;)switch(t.prev=t.next){case 0:r=this._style,o=r.color,a=r.thickness,s=r.lineCap,u=e.canvas,c=u.width,h=u.height,o&&(e.strokeStyle=o),a&&(e.lineWidth=a),s&&(e.lineCap=s),this._positions=[],e.beginPath(),f=!0,l=!1,t.prev=9,p=_()(n);case 11:return t.next=13,p.next();case 13:return d=t.sent,f=d.done,t.next=17,d.value;case 17:if(y=t.sent,f){t.next=26;break}w=y.relativePosition,g=w.x,m=w.y,this._positions.length?(e.lineTo(c*g,h*m),e.stroke()):e.moveTo(c*g,h*m),this._positions.push({x:g,y:m});case 23:f=!0,t.next=11;break;case 26:t.next=32;break;case 28:t.prev=28,t.t0=t.catch(9),l=!0,v=t.t0;case 32:if(t.prev=32,t.prev=33,f||null==p.return){t.next=37;break}return t.next=37,p.return();case 37:if(t.prev=37,!l){t.next=40;break}throw v;case 40:return t.finish(37);case 41:return t.finish(32);case 42:case"end":return t.stop()}}),t,this,[[9,28,32,42],[33,,37,41]])}))),function(t,n){return e.apply(this,arguments)})},{key:"render",value:function(t){if(this._positions){var e=this._style,n=e.color,r=e.thickness,i=e.lineCap,o=t.canvas,a=o.width,s=o.height;n&&(t.strokeStyle=n),r&&(t.lineWidth=r),i&&(t.lineCap=i),t.beginPath();var u,c=x(this._positions);try{for(c.s();!(u=c.n()).done;){var h=u.value;t.lineTo(a*h.x,s*h.y),t.stroke()}}catch(t){c.e(t)}finally{c.f()}}}}]),t}(),S=function(){function t(e,n,r){a()(this,t),this._style=e,this._start=n,this._end=r}var e;return u()(t,[{key:"drawing",value:(e=m()(i.a.mark((function t(e,n){var r,o,a,s,u,c,h,f,l,v;return i.a.wrap((function(t){for(;;)switch(t.prev=t.next){case 0:r=e.canvas,o=r.width,a=r.height,s=!0,u=!1,t.prev=3,h=_()(n);case 5:return t.next=7,h.next();case 7:return f=t.sent,s=f.done,t.next=11,f.value;case 11:if(l=t.sent,s){t.next=21;break}v=l.relativePosition,this._start?this._end=v:this._start=this._end=v,e.clearRect(0,0,o,a),this.render(e);case 18:s=!0,t.next=5;break;case 21:t.next=27;break;case 23:t.prev=23,t.t0=t.catch(3),u=!0,c=t.t0;case 27:if(t.prev=27,t.prev=28,s||null==h.return){t.next=32;break}return t.next=32,h.return();case 32:if(t.prev=32,!u){t.next=35;break}throw c;case 35:return t.finish(32);case 36:return t.finish(27);case 37:case"end":return t.stop()}}),t,this,[[3,23,27,37],[28,,32,36]])}))),function(t,n){return e.apply(this,arguments)})},{key:"render",value:function(t){if(void 0!==this._start&&void 0!==this._end){var e=this._style,n=e.color,r=e.thickness,i=e.lineCap,o=t.canvas,a=o.width,s=o.height;n&&(t.strokeStyle=n),r&&(t.lineWidth=r),i&&(t.lineCap=i);var u=this._start,c=u.x,h=u.y,f=this._end,l=f.x,v=f.y;t.beginPath(),t.moveTo(c*a,h*s),t.lineTo(l*a,v*s),t.stroke()}}}]),t}(),j=function(){function t(e,n,r){a()(this,t),this._style=e,this._start=n,this._end=r}var e;return u()(t,[{key:"drawing",value:(e=m()(i.a.mark((function t(e,n){var r,o,a,s,u,c,h,f,l,v;return i.a.wrap((function(t){for(;;)switch(t.prev=t.next){case 0:r=e.canvas,o=r.width,a=r.height,s=!0,u=!1,t.prev=3,h=_()(n);case 5:return t.next=7,h.next();case 7:return f=t.sent,s=f.done,t.next=11,f.value;case 11:if(l=t.sent,s){t.next=21;break}v=l.relativePosition,this._start?this._end=v:this._start=this._end=v,e.clearRect(0,0,o,a),this.render(e);case 18:s=!0,t.next=5;break;case 21:t.next=27;break;case 23:t.prev=23,t.t0=t.catch(3),u=!0,c=t.t0;case 27:if(t.prev=27,t.prev=28,s||null==h.return){t.next=32;break}return t.next=32,h.return();case 32:if(t.prev=32,!u){t.next=35;break}throw c;case 35:return t.finish(32);case 36:return t.finish(27);case 37:case"end":return t.stop()}}),t,this,[[3,23,27,37],[28,,32,36]])}))),function(t,n){return e.apply(this,arguments)})},{key:"render",value:function(t){if(void 0!==this._start&&void 0!==this._end){var e=this._style,n=e.color,r=e.thickness,i=e.lineCap,o=t.canvas,a=o.width,s=o.height;n&&(t.strokeStyle=n),r&&(t.lineWidth=r),i&&(t.lineCap=i);var u=this._start,c=u.x,h=u.y,f=this._end,l=f.x,v=f.y;t.strokeRect(c*a,h*s,(l-c)*a,(v-h)*s)}}}]),t}(),P=function(){function t(e,n,r){a()(this,t),this._style=e,this._start=n,this._end=r}var e;return u()(t,[{key:"drawing",value:(e=m()(i.a.mark((function t(e,n){var r,o,a,s,u,c,h,f,l,v;return i.a.wrap((function(t){for(;;)switch(t.prev=t.next){case 0:r=e.canvas,o=r.width,a=r.height,s=!0,u=!1,t.prev=3,h=_()(n);case 5:return t.next=7,h.next();case 7:return f=t.sent,s=f.done,t.next=11,f.value;case 11:if(l=t.sent,s){t.next=21;break}v=l.relativePosition,this._start?this._end=v:this._start=this._end=v,e.clearRect(0,0,o,a),this.render(e);case 18:s=!0,t.next=5;break;case 21:t.next=27;break;case 23:t.prev=23,t.t0=t.catch(3),u=!0,c=t.t0;case 27:if(t.prev=27,t.prev=28,s||null==h.return){t.next=32;break}return t.next=32,h.return();case 32:if(t.prev=32,!u){t.next=35;break}throw c;case 35:return t.finish(32);case 36:return t.finish(27);case 37:case"end":return t.stop()}}),t,this,[[3,23,27,37],[28,,32,36]])}))),function(t,n){return e.apply(this,arguments)})},{key:"render",value:function(t){if(void 0!==this._start&&void 0!==this._end){var e=this._style,n=e.color,r=e.thickness,i=e.lineCap,o=t.canvas;n&&(t.strokeStyle=n),r&&(t.lineWidth=r),i&&(t.lineCap=i),t.beginPath();var a=this._start,s=this._end,u=a.x*o.width,c=a.y*o.height,h=s.x*o.width-u,f=s.y*o.height-c,l=4*(Math.sqrt(2)-1)/3,v=h/2*l,p=f/2*l,d=u+h,y=c+f,w=u+h/2,g=c+f/2;t.beginPath(),t.moveTo(u,g),t.bezierCurveTo(u,g-p,w-v,c,w,c),t.bezierCurveTo(w+v,c,d,g-p,d,g),t.bezierCurveTo(d,g+p,w+v,y,w,y),t.bezierCurveTo(w-v,y,u,g+p,u,g),t.closePath(),t.stroke()}}}]),t}(),E=function(){function t(e,n,r){a()(this,t),this._style=e,this._start=n,this._end=r}var e;return u()(t,[{key:"drawing",value:(e=m()(i.a.mark((function t(e,n){var r,o,a,s,u,c,h,f,l,v;return i.a.wrap((function(t){for(;;)switch(t.prev=t.next){case 0:r=e.canvas,o=r.width,a=r.height,s=!0,u=!1,t.prev=3,h=_()(n);case 5:return t.next=7,h.next();case 7:return f=t.sent,s=f.done,t.next=11,f.value;case 11:if(l=t.sent,s){t.next=21;break}v=l.relativePosition,this._start?this._end=v:this._start=this._end=v,e.clearRect(0,0,o,a),this.render(e);case 18:s=!0,t.next=5;break;case 21:t.next=27;break;case 23:t.prev=23,t.t0=t.catch(3),u=!0,c=t.t0;case 27:if(t.prev=27,t.prev=28,s||null==h.return){t.next=32;break}return t.next=32,h.return();case 32:if(t.prev=32,!u){t.next=35;break}throw c;case 35:return t.finish(32);case 36:return t.finish(27);case 37:case"end":return t.stop()}}),t,this,[[3,23,27,37],[28,,32,36]])}))),function(t,n){return e.apply(this,arguments)})},{key:"render",value:function(t){if(void 0!==this._start&&void 0!==this._end){var e=this._style,n=e.color,r=e.thickness,i=void 0===r?3:r,o=e.lineCap,a=t.canvas,s=a.width,u=a.height;o&&(t.lineCap=o),n&&(t.fillStyle=n);var c=this._start.x*s,h=this._start.y*u,f=[0,i/2,-12,i/2,-15,8],l=this._end.x*s-c,v=this._end.y*u-h,p=Math.sqrt(l*l+v*v),d=v/p,y=l/p,w=[];t.beginPath(),w.push(0,0),w.push(f[0]<0?p+f[0]:f[0],f[1]),w.push(Math.max(f[2]<0?p+f[2]:f[2],0),f[3]),w.push(Math.max(f[4]<0?p+f[4]:f[4],-3),f[5]),w.push(Math.max(p,12),0),w.push(Math.max(f[4]<0?p+f[4]:f[4],-3),-f[5]),w.push(Math.max(f[2]<0?p+f[2]:f[2],0),-f[3]),w.push(f[0]<0?p+f[0]:f[0],-f[1]),w.push(0,0);for(var g=0;g<w.length;g+=2){var m=w[g]*y-w[g+1]*d+c,b=w[g]*d+w[g+1]*y+h;0===g?t.moveTo(m,b):t.lineTo(m,b)}t.fill()}}}]),t}();function C(t,e){var n;if("undefined"==typeof Symbol||null==t[Symbol.iterator]){if(Array.isArray(t)||(n=function(t,e){if(!t)return;if("string"==typeof t)return L(t,e);var n=Object.prototype.toString.call(t).slice(8,-1);"Object"===n&&t.constructor&&(n=t.constructor.name);if("Map"===n||"Set"===n)return Array.from(t);if("Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return L(t,e)}(t))||e&&t&&"number"==typeof t.length){n&&(t=n);var r=0,i=function(){};return{s:i,n:function(){return r>=t.length?{done:!0}:{done:!1,value:t[r++]}},e:function(t){throw t},f:i}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}var o,a=!0,s=!1;return{s:function(){n=t[Symbol.iterator]()},n:function(){var t=n.next();return a=t.done,t},e:function(t){s=!0,o=t},f:function(){try{a||null==n.return||n.return()}finally{if(s)throw o}}}}function L(t,e){(null==e||e>t.length)&&(e=t.length);for(var n=0,r=new Array(e);n<e;n++)r[n]=t[n];return r}function T(t,e){var n=Object.keys(t);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(t);e&&(r=r.filter((function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),n.push.apply(n,r)}return n}function A(t){for(var e=1;e<arguments.length;e++){var n=null!=arguments[e]?arguments[e]:{};e%2?T(Object(n),!0).forEach((function(e){h()(t,e,n[e])})):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(n)):T(Object(n)).forEach((function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(n,e))}))}return t}var M=function(){function t(e){var n=e.canvas,r=e.width,i=e.height,o=e.drawMouse,s=void 0===o||o,u=e.type,c=void 0===u?"freeLine":u,f=e.color,l=void 0===f?"red":f,v=e.thickness,p=void 0===v?3:v,d=e.lineCap,y=void 0===d?"square":d;if(a()(this,t),h()(this,"disableMouseDrawing",(function(){})),h()(this,"_canvas",void 0),h()(this,"_ctx",void 0),h()(this,"_tmpCanvas",void 0),h()(this,"_tmpCtx",void 0),h()(this,"_drawOption",void 0),h()(this,"_emitter",void 0),h()(this,"_figures",[]),h()(this,"_cursor",0),this._canvas=n,!(this._ctx=n.getContext("2d")))throw new Error("2d context not supported");r&&(n.width=r),i&&(n.height=i),this._tmpCanvas=document.createElement("canvas"),this._tmpCtx=this._tmpCanvas.getContext("2d"),this._drawOption={type:c,color:l,thickness:p,lineCap:y},this._emitter=new w,s&&this.enableMouseDrawing()}return u()(t,[{key:"on",value:function(t,e){return this._emitter.on(t,e)}},{key:"setSize",value:function(t){var e=t.width,n=t.height;e&&(this._canvas.width=e),n&&(this._canvas.height=n)}},{key:"setOptions",value:function(t){this._drawOption=A(A({},this._drawOption),t)}},{key:"draw",value:function(t){this._push(t),t.render(this._ctx)}},{key:"undo",value:function(){this._cursor>0&&(this._cursor--,this.redraw())}},{key:"redo",value:function(){this._cursor<this._figures.length&&(this._cursor++,this.redraw())}},{key:"clear",value:function(){var t=this.size,e=t.width,n=t.height;this._ctx.clearRect(0,0,e,n)}},{key:"destroy",value:function(){this.disableMouseDrawing(),this._emitter.allOff()}},{key:"enableMouseDrawing",value:function(){var t=this;this.disableMouseDrawing();var e=this.canvas,n=null,r=D;function o(){return(o=p()(i.a.mark((function t(){var e;return i.a.wrap((function(t){for(;;)switch(t.prev=t.next){case 0:return t.next=2,l()(new Promise((function(t){return r=t})));case 2:if(!(e=t.sent)){t.next=7;break}return t.next=5,e;case 5:t.next=0;break;case 7:case"end":return t.stop()}}),t)})))).apply(this,arguments)}var a=function(r,i){switch(t._drawOption.type){case"freeLine":n=new O(t._drawOption);break;case"straightLine":n=new S(t._drawOption);break;case"arrow":n=new E(t._drawOption);break;case"rectangle":n=new j(t._drawOption);break;case"ellipse":n=new P(t._drawOption);break;default:throw new Error('There is no figure of "'.concat(t._drawOption.type,'" type.'))}var a,s,u,c,h,f,l;a=e,s=t._tmpCanvas,u=a.getBoundingClientRect(),c=u.top,h=u.left,f=u.width,l=u.height,Object.assign(s,{width:a.width,height:a.height}),Object.assign(s.style,{position:"fixed",top:c+(f-a.width)/2+"px",left:h+(l-a.height)/2+"px"}),document.body.appendChild(t._tmpCanvas),n.drawing(t._tmpCtx,function(){return o.apply(this,arguments)}()),t._emitter.emit("drawStart",{originalEvent:i,canvas:t._canvas,relativePosition:r})},s=function(e,i){if(n){var o={originalEvent:i,canvas:t._canvas,relativePosition:e};r(o),t._emitter.emit("drawing",o)}},u=function(e,i){n&&(document.body.removeChild(t._tmpCanvas),r(),t._ctx.drawImage(t._tmpCanvas,0,0),t._push(n),r=D,n=null,t._emitter.emit("drawEnd",{originalEvent:i,canvas:t._canvas,relativePosition:e}))},c=null,h=[I(e,"mousedown",(function(t){var n=R(e,t);a(n,t),s(n,t)})),I(e,"touchstart",(function(t){var n=R(e,c=t.touches[0]);a(n,t),s(n,t)})),I(document,"mousemove",(function(t){s(R(e,t),t)})),I(document,"touchmove",(function(t){s(R(e,c=t.touches[0]),t)})),I(document,"mouseup",(function(t){u(R(e,t),t)})),I(document,"touchend",(function(t){u(R(e,c),t)}))];this.disableMouseDrawing=function(){return h.forEach((function(t){return t()}))}}},{key:"redraw",value:function(){this.clear();var t,e=C(this._figures.slice(0,this._cursor));try{for(e.s();!(t=e.n()).done;){t.value.render(this._ctx)}}catch(t){e.e(t)}finally{e.f()}}},{key:"_push",value:function(t){(this._figures=this._figures.slice(0,this._cursor++)).push(t)}},{key:"drawOption",get:function(){return this._drawOption}},{key:"canvas",get:function(){return this._canvas}},{key:"size",get:function(){return{width:this._canvas.width,height:this._canvas.height}}}]),t}();function I(t,e,n){return t.addEventListener(e,n),function(){return t.removeEventListener(e,n)}}function R(t,e){var n=e.clientX,r=e.clientY,i=t.getBoundingClientRect(),o=i.top,a=i.left,s=i.width,u=i.height;return{x:Number((n-a)/s),y:Number((r-o)/u)}}function D(){}e.default=M}]);
+// modules are defined as an array
+// [ module function, map of requires ]
+//
+// map of requires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the require for previous bundles
+parcelRequire = (function (modules, cache, entry, globalName) {
+  // Save the require from previous bundle to this closure if any
+  var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
+  var nodeRequire = typeof require === 'function' && require;
+
+  function newRequire(name, jumped) {
+    if (!cache[name]) {
+      if (!modules[name]) {
+        // if we cannot find the module within our internal map or
+        // cache jump to the current global require ie. the last bundle
+        // that was added to the page.
+        var currentRequire = typeof parcelRequire === 'function' && parcelRequire;
+        if (!jumped && currentRequire) {
+          return currentRequire(name, true);
+        }
+
+        // If there are other bundles on this page the require from the
+        // previous one is saved to 'previousRequire'. Repeat this as
+        // many times as there are bundles until the module is found or
+        // we exhaust the require chain.
+        if (previousRequire) {
+          return previousRequire(name, true);
+        }
+
+        // Try the node require function if it exists.
+        if (nodeRequire && typeof name === 'string') {
+          return nodeRequire(name);
+        }
+
+        var err = new Error('Cannot find module \'' + name + '\'');
+        err.code = 'MODULE_NOT_FOUND';
+        throw err;
+      }
+
+      localRequire.resolve = resolve;
+      localRequire.cache = {};
+
+      var module = cache[name] = new newRequire.Module(name);
+
+      modules[name][0].call(module.exports, localRequire, module, module.exports, this);
+    }
+
+    return cache[name].exports;
+
+    function localRequire(x){
+      return newRequire(localRequire.resolve(x));
+    }
+
+    function resolve(x){
+      return modules[name][1][x] || x;
+    }
+  }
+
+  function Module(moduleName) {
+    this.id = moduleName;
+    this.bundle = newRequire;
+    this.exports = {};
+  }
+
+  newRequire.isParcelRequire = true;
+  newRequire.Module = Module;
+  newRequire.modules = modules;
+  newRequire.cache = cache;
+  newRequire.parent = previousRequire;
+  newRequire.register = function (id, exports) {
+    modules[id] = [function (require, module) {
+      module.exports = exports;
+    }, {}];
+  };
+
+  var error;
+  for (var i = 0; i < entry.length; i++) {
+    try {
+      newRequire(entry[i]);
+    } catch (e) {
+      // Save first error but execute all entries
+      if (!error) {
+        error = e;
+      }
+    }
+  }
+
+  if (entry.length) {
+    // Expose entry point to Node, AMD or browser globals
+    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
+    var mainExports = newRequire(entry[entry.length - 1]);
+
+    // CommonJS
+    if (typeof exports === "object" && typeof module !== "undefined") {
+      module.exports = mainExports;
+
+    // RequireJS
+    } else if (typeof define === "function" && define.amd) {
+     define(function () {
+       return mainExports;
+     });
+
+    // <script>
+    } else if (globalName) {
+      this[globalName] = mainExports;
+    }
+  }
+
+  // Override the current require with this new one
+  parcelRequire = newRequire;
+
+  if (error) {
+    // throw error from earlier, _after updating parcelRequire_
+    throw error;
+  }
+
+  return newRequire;
+})({"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var global = arguments[3];
+var OVERLAY_ID = '__parcel__error__overlay__';
+var OldModule = module.bundle.Module;
+
+function Module(moduleName) {
+  OldModule.call(this, moduleName);
+  this.hot = {
+    data: module.bundle.hotData,
+    _acceptCallbacks: [],
+    _disposeCallbacks: [],
+    accept: function (fn) {
+      this._acceptCallbacks.push(fn || function () {});
+    },
+    dispose: function (fn) {
+      this._disposeCallbacks.push(fn);
+    }
+  };
+  module.bundle.hotData = null;
+}
+
+module.bundle.Module = Module;
+var checkedAssets, assetsToAccept;
+var parent = module.bundle.parent;
+
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+  var hostname = "" || location.hostname;
+  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53710" + '/');
+
+  ws.onmessage = function (event) {
+    checkedAssets = {};
+    assetsToAccept = [];
+    var data = JSON.parse(event.data);
+
+    if (data.type === 'update') {
+      var handled = false;
+      data.assets.forEach(function (asset) {
+        if (!asset.isNew) {
+          var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
+
+          if (didAccept) {
+            handled = true;
+          }
+        }
+      }); // Enable HMR for CSS by default.
+
+      handled = handled || data.assets.every(function (asset) {
+        return asset.type === 'css' && asset.generated.js;
+      });
+
+      if (handled) {
+        console.clear();
+        data.assets.forEach(function (asset) {
+          hmrApply(global.parcelRequire, asset);
+        });
+        assetsToAccept.forEach(function (v) {
+          hmrAcceptRun(v[0], v[1]);
+        });
+      } else if (location.reload) {
+        // `location` global exists in a web worker context but lacks `.reload()` function.
+        location.reload();
+      }
+    }
+
+    if (data.type === 'reload') {
+      ws.close();
+
+      ws.onclose = function () {
+        location.reload();
+      };
+    }
+
+    if (data.type === 'error-resolved') {
+      console.log('[parcel] ✨ Error resolved');
+      removeErrorOverlay();
+    }
+
+    if (data.type === 'error') {
+      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
+      removeErrorOverlay();
+      var overlay = createErrorOverlay(data);
+      document.body.appendChild(overlay);
+    }
+  };
+}
+
+function removeErrorOverlay() {
+  var overlay = document.getElementById(OVERLAY_ID);
+
+  if (overlay) {
+    overlay.remove();
+  }
+}
+
+function createErrorOverlay(data) {
+  var overlay = document.createElement('div');
+  overlay.id = OVERLAY_ID; // html encode message and stack trace
+
+  var message = document.createElement('div');
+  var stackTrace = document.createElement('pre');
+  message.innerText = data.error.message;
+  stackTrace.innerText = data.error.stack;
+  overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
+  return overlay;
+}
+
+function getParents(bundle, id) {
+  var modules = bundle.modules;
+
+  if (!modules) {
+    return [];
+  }
+
+  var parents = [];
+  var k, d, dep;
+
+  for (k in modules) {
+    for (d in modules[k][1]) {
+      dep = modules[k][1][d];
+
+      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
+        parents.push(k);
+      }
+    }
+  }
+
+  if (bundle.parent) {
+    parents = parents.concat(getParents(bundle.parent, id));
+  }
+
+  return parents;
+}
+
+function hmrApply(bundle, asset) {
+  var modules = bundle.modules;
+
+  if (!modules) {
+    return;
+  }
+
+  if (modules[asset.id] || !bundle.parent) {
+    var fn = new Function('require', 'module', 'exports', asset.generated.js);
+    asset.isNew = !modules[asset.id];
+    modules[asset.id] = [fn, asset.deps];
+  } else if (bundle.parent) {
+    hmrApply(bundle.parent, asset);
+  }
+}
+
+function hmrAcceptCheck(bundle, id) {
+  var modules = bundle.modules;
+
+  if (!modules) {
+    return;
+  }
+
+  if (!modules[id] && bundle.parent) {
+    return hmrAcceptCheck(bundle.parent, id);
+  }
+
+  if (checkedAssets[id]) {
+    return;
+  }
+
+  checkedAssets[id] = true;
+  var cached = bundle.cache[id];
+  assetsToAccept.push([bundle, id]);
+
+  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+    return true;
+  }
+
+  return getParents(global.parcelRequire, id).some(function (id) {
+    return hmrAcceptCheck(global.parcelRequire, id);
+  });
+}
+
+function hmrAcceptRun(bundle, id) {
+  var cached = bundle.cache[id];
+  bundle.hotData = {};
+
+  if (cached) {
+    cached.hot.data = bundle.hotData;
+  }
+
+  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
+    cached.hot._disposeCallbacks.forEach(function (cb) {
+      cb(bundle.hotData);
+    });
+  }
+
+  delete bundle.cache[id];
+  bundle(id);
+  cached = bundle.cache[id];
+
+  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+    cached.hot._acceptCallbacks.forEach(function (cb) {
+      cb();
+    });
+
+    return true;
+  }
+}
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
+//# sourceMappingURL=/index.js.map

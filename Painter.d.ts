@@ -1,17 +1,5 @@
 import { Listener } from './EventEmitter';
-import { Figure, RelativePosition } from './types';
-export declare type DrawThickness = number;
-export declare type DrawType = 'freeLine' | 'straightLine' | 'rectangle' | 'ellipse' | 'arrow';
-export declare type DrawColor = string | CanvasGradient | CanvasPattern;
-export interface DrawOption {
-    type?: DrawType;
-    color?: DrawColor;
-    thickness?: DrawThickness;
-    lineCap?: CanvasLineCap;
-}
-export interface DrawFigure extends DrawOption {
-    positions: RelativePosition[];
-}
+import { DrawType, DrawThickness, DrawColor, DrawOption, FigureData } from './types';
 export interface PainterOptions {
     canvas: HTMLCanvasElement;
     width?: number;
@@ -21,6 +9,7 @@ export interface PainterOptions {
     color?: DrawColor;
     thickness?: DrawThickness;
     lineCap?: CanvasLineCap;
+    figures?: FigureData[];
 }
 export default class Painter {
     disableMouseDrawing: () => void;
@@ -32,25 +21,28 @@ export default class Painter {
     private _emitter;
     private _figures;
     private _cursor;
-    constructor({ canvas, width, height, drawMouse, type, color, thickness, lineCap }: PainterOptions);
+    constructor({ canvas, width, height, drawMouse, type, color, thickness, lineCap, figures, }: PainterOptions);
     get drawOption(): DrawOption;
     get canvas(): HTMLCanvasElement;
+    get figures(): FigureData[];
     get size(): {
         width: number;
         height: number;
     };
-    on(name: 'drawStart' | 'drawing' | 'drawEnd', listener: Listener): () => Listener[];
+    on(name: 'drawStart' | 'drawing' | 'drawEnd' | 'figures', listener: Listener): () => Listener[];
     setSize({ width, height }: {
         width?: number;
         height?: number;
     }): void;
     setOptions(drawOption: DrawOption): void;
-    draw(figure: Figure): void;
+    draw({ drawOption, positions }: FigureData): void;
     undo(): void;
     redo(): void;
     clear(): void;
+    allOff(): void;
     destroy(): void;
     enableMouseDrawing(): void;
     redraw(): void;
+    setFigures(figures?: FigureData[]): void;
     private _push;
 }
