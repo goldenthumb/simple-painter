@@ -277,7 +277,8 @@ function overlayStyle(origin: HTMLCanvasElement, target: HTMLCanvasElement) {
     Object.assign(target.style, {
         position: 'fixed',
         top: top + (width - origin.width) / 2 + 'px',
-        left: left + (height - origin.height) / 2 + 'px'
+        left: left + (height - origin.height) / 2 + 'px',
+        cursor: origin.style.cursor,
     });
 }
 
